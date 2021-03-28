@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Anton Johansson</title>
+    <link rel="stylesheet" href="styles/styleIndexColumn.css">
+</head>
+<body>
+
+<!--Slight issue when going from one of the boxes to the blog posts, and then clearing the field
+when backing later then the field is still cleared but the items that are shown are as if the string was still
+being searched for.-->
+
+<!--<div id="aa"></div>-->
+
+<div id="d1">
+    <div id="headerGrid">
+        
+        <p class="zeroSpacep">Hello, I'm</p>
+        <div id="headerGrid1">
+        <span id="titleName" onclick="location.href='index.html';">Anton</span>
+        </div>
+
+        <div id="headerGrid2">
+            <div class="buttonWrapper"><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow mainFontColor" onclick="location.href='blog_posts/blogHome.html';">Blog</button><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow" onclick="location.href='About/about.html';">About</button><button id="roundBtnGit" class="infoBtns buttonShadow" onclick="location.href='https://github.com/antonFJohansson';"></button></div>
+        </div>
+    </div>
+</div>
+
+<div id="d2">
+
+    <div id="titleWrapper" class="mainFontColor"><div id="projectTitle">Recent Posts </div>
+
+    <div id="rightGrid">
+        <div id="indexDataScienceBox" class="itemBox" tabindex="1" onclick="location.href='blog_posts/blogHome.html?search=Data Science';"><canvas id="dataScienceCanvas"></canvas><span class="indexBoxText">Data Science</span></div>
+        <div id="indexProgrammingBox" class="itemBox" tabindex="2" onclick="location.href='blog_posts/blogHome.html?search=Programming';"><canvas id="programmingCanvas" ></canvas><span class="indexBoxText">Programming</span></div>
+        <div id="indexArtBox" class="itemBox" tabindex="3" onclick="location.href='blog_posts/blogHome.html?search=Art';"><canvas id="artCanvas"></canvas><span class="indexBoxText">Art</span></div>
+        <div id="indexAllBox" class="itemBox mainSiteColor" tabindex="4" onclick="location.href='blog_posts/blogHome.html';">All</div>
+    </div>
+
+</div>
+
+
+
+    <script src="scripts/canvasDrawDataScience.js"></script>
+    <script src="scripts/canvasDrawProgramming.js"></script>
+    <script src="scripts/canvasDrawArt.js"></script>
+    <!--<script src="scripts/utilsIndex.js"></script>-->
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Anton Johansson</title>
+    <link rel="stylesheet" href="../styles/styleIndexColumn.css">
+    <link rel="stylesheet" href="../styles/blogstyleReform.css">
+</head>
+<body>
+
+<!--Slight issue when going from one of the boxes to the blog posts, and then clearing the field
+when backing later then the field is still cleared but the items that are shown are as if the string was still
+being searched for.-->
+
+<!--<div id="aa"></div>-->
+
+<div id="d1">
+    <div id="headerGrid">
+        
+        <p class="zeroSpacep">Hello, I'm</p>
+        <div id="headerGrid1">
+        <span id="titleName" onclick="location.href='../index.html';">Anton</span>
+        </div>
+
+        <div id="headerGrid2">
+            <div class="buttonWrapper"><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow mainFontColor" onclick="location.href='blogHome.html';">Blog</button><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow" onclick="location.href='../About/about.html';">About</button><button id="roundBtnGit" class="infoBtns buttonShadow" onclick="location.href='https://github.com/antonFJohansson';"></button></div>
+        </div>
+    </div>
+</div>
+
+<div id="d2">
+
+    <div id="rightGrid">
+            
+        <div id="main" class="mainItems">
+          
+            <div id="contentTitle">Commonly Misused Distribution in Data Science</div>
+            <h2><strong>Overview</strong></h2>
+            <div class="contentText">
+                During my teaching and collaboration experiences,
+                 it has become clear to me that there can often be
+                  misunderstandings when one can use distributions
+                   such as the student \(t\)-distribution and how it appears.
+                    In Data Science, I have seen these misunderstandings
+                     lead people to exclaim significant results when in
+                      reality it was non-significant. I thus wanted
+                       to give a short explanation of when and how this distribution
+                        appears and also a lengthier derivation of it
+                         to prove the claims. This post is by
+                          no means exhaustive and does not detail all the 
+                          possible ways how this distribution can appear.
+
+            </div>
+            <h2><strong>\(t\)-distribution</strong></h2>
+            <div class="contentText">
+                One way in which I have seen the \(t\)-distribution misused
+                 is when performing a hypothesis test to test the mean
+                  (such as the one-sample \(t\)-test). Assuming we have 
+                  some observed data \(x\). Then we can form the observed
+                   mean \(\bar{x}\) and the observed standard deviation \(s\)
+                    and subsequently form the ratio
+                $$T = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}$$
+                which we can use in our hypothesis testing. 
+                The issue here is that we can only perform this 
+                when our sample \(x\) is assumed to come from a normal
+                 distribution (unless we are working with a large 
+                 sample in which case we can use the central limit theorem).
+                  If our data does not come from a normal distribution then 
+                  we can obtain incorrect conclusions if we perform this hypothesis test.
+                <br>
+                <br>
+                Similarly if we perform a two-sample \(t\)-test to test for
+                 the equality of means, e.g, to see if one algorithm is 
+                 superior to another, then in most cases we cannot trust
+                  the significance values that we obtain since for most 
+                  algorithms the result will not follow a normal distribution
+                   (unless we have a large amount of observations/results 
+                   from the algorithms in which case the central limit theorem 
+                   can be applied as before). This can yield inconclusive 
+                   results or cause you to exclaim significance when in reality
+                    one cannot know for sure.
+                <br>
+                <br>
+                To be on the safe side when performing some form of hypothesis 
+                test it is recommended to perform some non-parametric test 
+                that has fewer assumptions, e.g, Mann-Whitney U-test. Important
+                 to note though is that these tests also relies on assumptions, 
+                 e.g, independence of the observations (which often can be difficult to ensure). 
+                 Another way is to use bootstrapping to produce empirical confidence intervals
+                  to get an idea of the performance of an algorithm. Hypothesis 
+                  testing and model selection in machine learning can be difficult
+                   and there is usually no perfect way of obtaining conclusions. 
+                           <br>
+                           
+            </div>
+            
+
+    <h2><strong>\(t\)-distribution, lengthier derivation</strong></h2>
+            <div class="contentText">
+                For me it can often be difficult to understand why certain assumptions are needed 
+                and where the tests actually comes from, and I can see similar confusions in students 
+                when it comes to the \(t\)-test. Thus I thought that I could give a derivation 
+                of how the \(t\)-distribution can arise.
+                <br>
+                 The classical example when the \(t\)-distribution
+                   shows up is when trying to create "test statistic" for the mean
+                    of a sample when the variance is unknown. Then one usually creates the ratio 
+                $$T = \frac{\bar{X} - \mu}{S/\sqrt{n}}$$
+                which will be \(t\)-distributed with \(n-1\) degrees of freedom.
+                 First off we will define what the \(t\)-distribution actually is,
+                  and then show why the ratio above is \(t\)-distributed.
+                   This will show when we can actually use the \(t\)-distribution
+                    to prove significance of our hypothesis. The \(t\)-distribution
+                     is given as
+                $$g(t;n) = \frac{\Gamma(\frac{n+1}{2})}{\sqrt{n \pi}\Gamma(n/2)}\bigg(1 + \frac{t^2}{n}\bigg)^{-\frac{n+1}{2}}, ~~t\in(-\infty,\infty).$$
+                The reason that the quantity \(T\) is \(t\)-distributed follows when we are
+                 working with measurements \(X_1,X_2,...,X_n \sim \mathcal{N}(\mu, \sigma^2)\). 
+                 In this situation then we know that 
+                 \(V = \frac{\sqrt{n}}{\sigma} \big(\bar{X} - \mu \big) \sim \mathcal{N}(0,1)\) and
+                  \(U=\frac{n-1}{\sigma^2}S^2 \sim \chi^2(n-1)\). The ratio \(V/\sqrt{U/(n-1)}\) is exactly
+                   equal to the ratio \(T\), thus we can use this fact to derive 
+                   the distribution of \(T\). Given that we know that \(U\) and \(V\) are independent,
+                    the joint density is given as follows
+                    $$
+                \begin{align}
+                &f_{U,V}(u,v) = f_V(v)f_U(u)\\
+                &= \frac{v^{(n-1)/2 - 1}\exp(-v/2)}{2^{(n-1)/2}\Gamma((n-1)/2)}\frac{\exp(-u^2/2)}{\sqrt{2\pi}}
+                \end{align}
+                $$
+                We can obtain the density for the ratio \(T\) through the 
+                following transformation from the space \((u,v)\) to \((r,t)\).
+                $$
+                \begin{align}
+                    &r = v\\
+                    &t = u\sqrt{\frac{n-1}{v}}    
+                \end{align}
+                $$
+                This gives us the density of \(f_{R,T}(r,t)\) as 
+                $$f_{R,T}(r,t) = \sqrt{\frac{r}{n-1}}f_{U,V}(t\sqrt{r/n-1}, r)$$
+                Now, by marginalizing out \(r\), we can obtain the density for the ratio \(T\) as
+                $$
+                \begin{align}
+                   &f_{T}(t) = \int_0^{\infty}  f_{R,T}(r,t)dr\\
+                   &=\int_0^{\infty} \sqrt{\frac{r}{n-1}}f_{U,V}(t\sqrt{r/n-1}, r)dr\\
+                   &=\int_0^{\infty} \sqrt{\frac{r}{n-1}}\frac{r^{(n-1)/2 - 1}\exp(-r/2)}{2^{(n-1)/2}\Gamma((n-1)/2)}\frac{\exp(-\frac{w^2r^2}{2(n-1)}\big)}{\sqrt{2\pi}}dr
+                \end{align}
+                $$
+                which can be evaluated to be
+                $$f_{T}(t) = \frac{\Gamma(\frac{n}{2})}{\sqrt{n \pi}\Gamma((n-1)/2)}\bigg(1 + \frac{t^2}{n-1}\bigg)^{-\frac{n}{2}}$$
+                which is the \(t\)-distribution with \(n-1\) degrees of freedom. 
+                We see here the crucial point of the test statistic \(T\), i.e, 
+                we require that the observations \(X_1,X_2,...,X_n\) should be normally distributed.
+                 If this does not hold, then the conclusions that one draws could be invalid.
+                
+                
+            </div>
+      
+</div>
+      
+          <!--<button id="leftMainBtn" class="flipPageBtn" onclick="goToRecentPosts()">Newer Posts</button> <button id="rightMainBtn" class="rightMainBtn flipPageBtn" onclick="goToPreviousPosts()">Older Posts</button>    -->
+
+
+
+</div>
+
+</div>
+
+  <!--<script src="scripts/utilsIndex.js"></script>-->
+ <!-- <script src="../scripts/blogInfo.js"></script>
+ <script src="../scripts/loadBlogInfo.js"></script>-->
+
+    </div>
+
+</div>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+ <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+ 
+    <!--<script src="scripts/utilsIndex.js"></script>-->
+
+</body>
+</html>

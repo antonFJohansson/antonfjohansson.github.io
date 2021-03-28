@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../styles/blogstyle.css">
+</head>
+
+<body>
+
+<div id="myGrid">
+  
+  <div id="topBar" class="mainItems"><span id="nameSpan"><a class="topLinks" href="../index.html">Anton</a></span> </div>
+  <div id="projectInfo"><a class="topLinks" href="blogHome.html">Projects</a></div>
+  <div id="otherInfo"> <button id="roundBtn" class="infoBtns">CV</button><button id="roundBtnGit" class="infoBtns" onclick="location.href='https://github.com/antonFJohansson';"></button><button id="linkedInBtn" class="infoBtns"></button></div>
+
+  <div id="main" class="mainItems">
+    <div id="contentTitle">Word Semantics in Reddit Comments</div>
+             <h2><strong>Overview</strong></h2>
+             <div class="contentText">
+             I was interested in analyzing how the assumed semantic meaning of the words "they're, their, there"
+              has changed over the years. Specifically I was interested in if these words
+               have gotten more similar over the years. I based my analysis on co-occurrences
+                matrices of Reddit comments from the years 2005-2010. Constructing co-occurence matrices and plotting
+                the similarity between the words for each year in the range 2005-2010 gave the following result.
+             <img src="../img/blogImgs/redditComment/rc_overview.png" alt="Reddit comment analysis overview" class="responsiveImg">
+             Each plot corresponds to a specific dictionary size in the analysis. Each colored curve corresponds to the similarity between two pair of words 
+             from the three possible words "they're, their, there". 
+             From the four plots we can see that there is an upwards trend, indicating an increase in the similarity of the words "their" and "they're". This result hints that the confusion of these words have increased over the investigated interval.
+             
+             If this seems interesting to you and if you wish to get a deeper explanation of the involved process and methods, please continue reading. The code can be found on <a href="https://github.com/antonFJohansson/reddit_comment_analysis">github</a>.
+            </div>
+             <h2><strong>Introduction</strong></h2>
+             <div class="contentText">
+             As a non-native speaker of English, when trying to express myself in English I find that two errors can sometimes occur which can make it difficult for a reader to follow my line of thought:
+             <ol>
+                 <li>I commit a spelling error.</li>
+                 <li>I have misunderstood the semantic meaning of a word.</li>
+ 
+             </ol>
+             With the rise of spell checkers, I can easily catch the first error before publishing any writings. The second error is a different story. Understanding when I have misunderstood the semantic meaning of a given word seems to be an almost impossible task, at least without external help. I doubt most people have time to probe their understanding of the semantic meaning of different words to detect and stop the second error. Thus I think that people should be forgiving to each other when encountering writing errors online. One does not simply know their native tongue, how they learned English, how much time they spend reflecting on their usage of the language and also how much they actually care about making their thoughts easy to follow. With that said, I think there is an error that I see frequently enough and that is simple enough that it does not take long to prevent it from occurring. I am thinking of the confusion of the words "there", "they're" and "their". While these words sounds similiar, they have different meanings. With a quick Googling of these words we can see their difference.
+             <ul>
+                 <li>there: In, at, or to that place or position.</li>
+                 <li>they're: Contraction of the words <i>they</i> and <i>are</i>.</li>
+                 <li>their:  Belonging to or associated with the people or things previously mentioned or easily identified.</li>
+             </ul>
+             What has surprised me in recent years is that this confusion of these three words have seemed to increase. I detect it more and more often when browsing the internet. Since it is not clear if this increase is due to my internet habits changings and that maybe I have gradually moved to sites where these errors are more prevalent, or if these errors are actually occurring more often than before, I thought that I should try and investigate exactly this question more rigourously. I thus sought to check if these words have become increasingly mixed up in the last 2 decades. Since this is a hobby project, I chose to restrict the scope of the project as follows:
+             <ul>
+                 <li>I only investigate how the usage of the words have changed on the site <a href="http://Reddit.com"></a>. The comments from Reddit can easily be accessed <a href="http://files.pushshift.io/reddit/comments/">here</a> </li>
+                 <li>I restrict my attention to the usage between 2005-2010. (This is mainly due to the size of the stored comments for later years)</li>
+             </ul>
+            </div>
+             <h2><strong>Method</strong></h2>
+            
+             <h3><strong>Co-occurrence matrix</strong></h3>
+             <div class="contentText">
+             The first method I tried was that of similarity of <i>co-occurence matrices</i>. It was performed as follows.
+             <ul>
+                 <li>First we search through all comments to find where one of the three words is used. What we are interested in is to know how their assumed meaning has changed throughout the years and thus we need to specify a <i>context</i> for each word which contain the assumed meaning and which we can then compare. A context in this project was defined as a window of size 2 placed on each word occurence of the three given words. Examples of word context window of size 2 is given as follows:</li>
+                 <img src="../img/blogImgs/redditComment/rc_word_window.png" alt="Word window" class="responsiveImg">
+                 
+                 <li>Thus one way to compare if the assumed semantic meaning of the word have gotten more similar is to see if the words in the context window has become more similar as well. Words that often appear in the context window of one of the words might be different than the words that appear in the context window of the other words, given that these words are used correctly. The word <i>dog</i> for example is unlikely to exist in the context window for the word <i>they're</i> while it is more likely to exist in the context window for the word <i>their</i>. Usually when working with long documents/context windows, one tends to remove or reduce the effect of common words (such as <i>and, is, the</i>) on the context. This is since for long documents these words are likely to appear but are not informative of the actual context, they only link the word and sentences together but does not give information of what the sentences describe. For short context windows, such as now when we are investigating a small window for individual words, these common words contain more information. The word <i>is</i> for example is a word that is likely to appear in the context window for <i>their</i> and <i>there</i> (such as in '.. is there tea left ..' or '... is their cat ok ...') but not as likely to appear in the context window for <i>they're</i>. Thus the word <i>is</i> can contain information on the assumed semantic meaning of the word.</li>
+                 <li>To convert this context window into a mathematical object, we create what is known as a co-occurence matrix. This is a matrix where each element gives the amount of occurences for each wordpair in the given context. For the sentence 'I have never seen a blue apple in this world. Blue apples does not exist. Look at this, this apple is green', we get the co-occurrence matrix as</li>
+                 <img src="../img/blogImgs/redditComment/rc_matrix.png" alt="Co-occur matrix" class="responsiveImg">
+                 
+             </ul>
+ 
+             <ul>
+                 <li>We can thus see that from the co-occurrence matrix it is possible to infer that the sentence deals with topics related to Blue Apples and not Tokyo. The co-occurence matrix contains information of the <i>content</i> of the sentence. We will use technique to infer the assumed semantic meaning of the words <i>they're, their</i> and <i>there</i>. We do this by constructing a co-occurrence matrix for each context window placed on each occurrence of the three words in all of the available Reddit comments. The co-occurrence matrix will thus contain the <i>content</i> of the window, which we assume will represent the assumed semantic meaning of the given word. To get a total description of the assumed context, we sum all co-occurrences matrices individually for the three words. This gives us three final co-occurrences matrices, one for each of the three words, that we can use to infer the assumed semantic meaning. We do this separately for each month from 2005-12 until 2007-12 and then analyze how these matrices change as time progresses.</li>
+                 <li>To measure the similarity between the matrices we use the <a href="https://en.wikipedia.org/wiki/Cosine_similarity">cosine-similarity]</a> on the matrices. This similarity measure is 1 if the matrices are identical (or a constant times the matrix) and 0 if the matrices are orthogonal (which in this setting means that they share no contexts with each other). Thus a larger value indicated a higher degree of similarity between the assumed semantic meaning of the words.</li>
+                 <li>Finally, to get an idea of the effect of the dictionary size on the result we calculate the similarities for dictionary sizes of 100, 500, 1000, 2000. The size of the dictionary is the number of possible words that are used to in the co-occurrence matrix, inclusion goes from most commonly occurring to least commonly occurring.</li>
+             </ul>
+             
+             Doing all of this yields the results below.
+             <img src="../img/blogImgs/redditComment/rc_overview.png" alt="Reddit comment analysis overview" class="responsiveImg">
+             
+             
+             We can see that there is an upwards trend for the similarity between the words "their" and "they're". While we do not know what the cosine-similarity would be under proper use, we can see that there is an increasing trend which indicates that their assumed semantic meaning changes over time, going towards more similar. For the other word pairs we can see that these is a slight upwards trend, but these trends are not as strong as for the one between "their" and "they're". We can also see that during the first years (2005-2006) then the similarity is close to 0. This does not mean that the users believed these words to have widely different semantic meanings, it is probably due to the fact that to properly estimate a co-occurrence matrix a lot of data is needed. Reddit was created in 2005 and thus there is not a lot of comment data from the first few years. The trends also stabilize with increasing dictionary sizes, showing that most of the important contextual words are captured with a dictionary of around size 500-1000.
+            </div>
+             <h2><strong>Future work</strong></h2>
+             <div class="contentText">
+             Due to this being a small project, this project was limited to the years 2005-2010. The main issue with scaling it up is the size of the comment files. The first few years are consist of a maximum of hundreds of megabytes, while the later years consist of tens of gigabytes It would be interesting to see the trend for a longer period. It would also be interesting to see the trends from other websites such as facebook.             
+             Other similarity techniques could also be used to see if the conclusions drawn here are valid with other methods as well.
+            </div>
+            
+  </div>
+  </div>
+</div>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+  <script type="text/javascript"
+    src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>  
+
+
+</body>
+</html> 

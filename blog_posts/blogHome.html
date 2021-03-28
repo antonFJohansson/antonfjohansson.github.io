@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Anton Johansson</title>
+    <link rel="stylesheet" href="../styles/styleIndexColumn.css">
+    <link rel="stylesheet" href="../styles/blogHomeColumn.css">
+</head>
+<body>
+
+<!--Slight issue when going from one of the boxes to the blog posts, and then clearing the field
+when backing later then the field is still cleared but the items that are shown are as if the string was still
+being searched for.-->
+
+<!--<div id="aa"></div>-->
+
+<div id="d1">
+    <div id="headerGrid">
+        
+        <p class="zeroSpacep">Hello, I'm</p>
+        <div id="headerGrid1">
+        <span id="titleName" onclick="location.href='../index.html';">Anton</span>
+        </div>
+
+        <div id="headerGrid2">
+            <div class="buttonWrapper"><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow mainFontColor" onclick="location.href='blogHome.html';">Blog</button><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow" onclick="location.href='../About/about.html';">About</button><button id="roundBtnGit" class="infoBtns buttonShadow" onclick="location.href='https://github.com/antonFJohansson';"></button></div>
+        </div>
+    </div>
+</div>
+
+<div id="d2">
+
+    <div id="titleWrapper" class="mainFontColor"><div id="projectTitle">Recent Posts </div>
+
+    <div id="rightGrid" class="blogContainer secondaryFontColor secondarySiteColor">
+            
+        <div id="main" class="mainItems">
+         <!--   <img id="sunon" src="../img/blogImgs/blogGeneral/sun_on.png" class="lightMode" onclick="switchLightMode('sunon')"><img src="../img/blogImgs/blogGeneral/sun_off.png" class="lightMode" onclick="switchLightMode('sunoff')" id="sunoff" style="display: none;">-->
+        
+            
+            <div id="searchWrapper"><input type="search" placeholder="Search Blog Posts" results="0" id="searchBlogPosts" oninput="retrieveSearchWord()"><img src="../img/index/64px-Magnifying_glass_icon_small_new.png" class="searchGlass"></div>
+        </div>
+            <div id="contentWrapper">
+
+            </div>
+
+            <button id="leftMainBtn" class="flipPageBtn" onclick="goToRecentPosts()">Newer Posts</button> <button id="rightMainBtn" class="rightMainBtn flipPageBtn" onclick="goToPreviousPosts()">Older Posts</button>
+            <div id="bottomPadding"></div>
+        </div>
+        <!--<button id="leftMainBtn" class="flipPageBtn" onclick="goToRecentPosts()">Newer Posts</button> <button id="rightMainBtn" class="rightMainBtn flipPageBtn" onclick="goToPreviousPosts()">Older Posts</button>    -->
+
+
+
+    </div>
+
+</div>
+
+
+
+<script src="../scripts/blogInfo.js"></script>
+<script src="../scripts/loadBlogInfo.js"></script>
+    <!--<script src="scripts/utilsIndex.js"></script>-->
+
+</body>
+</html>

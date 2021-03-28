@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../styles/blogstyle.css">
+</head>
+
+<body>
+
+<div id="myGrid">
+  
+  <div id="topBar" class="mainItems"><span id="nameSpan"><a class="topLinks" href="../index.html">Anton</a></span> </div>
+  <div id="projectInfo"><a class="topLinks" href="blogHome.html">Projects</a></div>
+  <div id="otherInfo"> <button id="roundBtn" class="infoBtns">CV</button><button id="roundBtnGit" class="infoBtns" onclick="location.href='https://github.com/antonFJohansson';"></button><button id="linkedInBtn" class="infoBtns"></button></div>
+
+  <div id="main" class="mainItems">
+    <div id="contentTitle">Permutation Based Feature Importance Techniques</div>
+    <div class="contentText">
+    
+    <br>
+    <br>
+    Feature importance can be an important step of machine learning and data analysis.
+    Understanding which features that matter and how they affect our models outputs
+     can change how we argue and reason about our models,
+      and subsequently affect both which model that is deployed 
+      and also how we proceed with further data collection 
+      (e.g, we can disregard features that are not vital to the models performance
+       and might be expensive to collect). 
+       <br>
+
+   While there exists a multitude of methods to measure feature importance,
+    some of these methods are used in scenarios which can yield wrong conclusions.
+     I therefore wanted to touch upon some of these issues
+      and also investigate a possible solution.
+   This post was inspired by the this article
+    
+   <a href="https://arxiv.org/abs/1905.03151">article</a>. I will refer to this article throughout
+   this post simply as <i>the article</i>. For the relevant code, see <a href="https://github.com/antonFJohansson/please_do_not_permute_features">github</a>.
+</div>
+   <h2><strong>Methods for Feature Importance</strong></h2>
+   <div class="contentText">
+   In this blog post I will denote the full data matrix of feature values as $X$
+    and the corresponding target as $y$. I will mainly focus on 
+    three feature importance methods, namely
+    <ul>
+     <li>Variable Importance:
+         <ul>Here we measure the importance of a feature/variable by permuting
+              a given column in $X$ and then summing the difference 
+              of the loss between the non-permuted and permuted data. 
+              Given that we denote the data matrix with the permuted
+               feature $j$ as $X^{\pi, j}$, we can mathematically write this as
+           $$\textrm{VI}^j = \sum_{i=1}^N l(y_i, f(X_{i,:}^{\pi,j})) - l(y_i, f(X_{i,:}))$$
+           where $f$ is our model and $l$ the loss-function. 
+           Intuitively we can see that permuting features that are
+            important to the model's output will cause a large increase 
+            in loss and thus a large VI value, while permuting non-important
+             features will not cause a large increase in loss. Thus a large 
+             VI value is associated with an important feature.</ul>
+     </li>   
+     <li>Partial Dependency Plots:
+         <ul>
+           Here we estimate the effect of a feature on the model's
+            output by replacing an entire feature column with a 
+            single value $x$ and investigating how the output 
+            changes as we vary $x$. The advantage with such a
+             definition is that we can obtain 1d-plots visualizing
+              the effect of varying the feature values. Mathematically, we define this as
+           $$\textrm{PD}^j(x) = \frac{1}{N}\sum_{i=1}^N f(x_i^{x,j})$$
+           where $x_i^{x,j}$ denotes observation $i$ where the $j$th
+            feature has been replaced by $x$.
+         </ul>
+     </li>
+     <li>Individual Conditional Expectation (ICE) Plots:
+         <ul>
+           Essentially the same as a Partial Dependency plot
+            but instead of taking the mean of all outputs we
+             display the individual outputs as a function of $x$.
+              We can display a random amount of such functions to
+               get an idea of how the model depends on the given 
+               feature. The mathematical expression for such a function is given as
+           $$\textrm{ICE}_{i,j}(x) = f(x_i^{x,j})$$
+         </ul>
+     </li>
+    </ul>
+    In the article they give some reasons for why it can be unwise
+     to use these measures, namely that for correlated features
+      these measures can be determined by the models extrapolation ability.
+       I found this explanation most easily understandable with
+        a figure. Below we can see a correlated data set in 2 dimensions.
+   Imagine if we train a model on this data set,
+   then we can only expect the model to predict well
+   in regions where we have data. By permuting one of the features
+   we obtain the plot in the middle. It is these red points which
+       we will use to determine the feature importance. We can
+       see that these red points can fall in regions where our
+       model has to extrapolate. In the last figure we can see
+       this issue in practice where we see 5 neural network
+           models trained on the non-permuted data (with $z = (x+y)^2$). The scatter points from the two
+           previous plots can be seen in the $xy$-plane. We can see 
+           that the models disagree in the region where we extrapolate. The only difference
+           between these models is the random seed that was used for initialization of the weights.
+           Thus it is likely unwise to base our feature importance measure on on the prediction of the model 
+           in these regions since our results are highly dependent on the random seed used for the 
+           training procedure.
+           <img src="../img/blogImgs/permuteImgs/full_corr_nn.png" alt="Issues with permutation based feature importance" class="responsiveImg">
+           <!--<img src="{{ url_for('static', filename='blog_imgs/permute_imgs/full_corr_nn.png') }}" alt="Issues with permutation based feature importance" class="img-responsive">-->
+           Given that the issue is extrapolation, 
+           I wanted to explore this issue with a Bayesian 
+           model which might be argued to take this into account 
+           (by providing the variance of our predictions).
+            I chose to work with Gaussian Process regression model.
+           <br>
+           <br>
+           In the article they investigate these issues where the data
+            is generated by a simple linear model given as
+           <span class="mathEq">
+           $$\begin{aligned}y_i = &x_1 + x_2 + x_3 + x_4 + x_5 +0x_6 + 0.5x_7\\
+            &+ 0.8x_8 + 1.2x_9 + 1.5x_{10} + \epsilon \end{aligned}$$
+          </span>
+           where $\epsilon \sim \mathcal{N}(0,0.1^2)$ and all 
+           features are uniformly distributed on [0,1] except $x_1$ and $x_2$ which
+            are generated from a Gaussian copula with correlation $\rho$. The advantage 
+            of working with a simple linear model is that the coefficients can be interpreted
+            as a feature importance measure. Thus we can compare the permutation based measures with 
+            the coefficients.
+            Thus in this case our model will extrapolate in the region of low
+             $x_1$ and high $x_2$ values (and vice versa).
+           I thus take the same model and see what results we can get when we take the variance of the model's prediction into account.
+            </div>
+           <h1><strong>Feature importance with variance</strong></h1>
+           <div class="contentText">
+           For a Gaussian process model we have that the function values is distributed as
+           <span class="mathEq">
+           $$f \sim \mathcal{N}(m, K)$$
+          </span>
+       where $m$ and $K$ denotes the mean and the covariance matrix of the distribution.
+        Given that we have access to the covariance matrix between
+         the function values, we can obtain a variance estimate for 
+         the Partial Dependency plot as follows
+        
+
+    <span class="mathEq">
+       $$\begin{aligned}\textrm{Var}\bigg( \frac{1}{N}\sum_{i=1}^N f(x_i^{x,j})\bigg) = &\frac{1}{N^2}\bigg[\sum_{i=1}^N\textrm{Var}\big(f(x_i^{x,j})\big)\\
+       & +2\sum_{i\neq k}\textrm{cov}\big(f(x_i^{x,j}),f(x_k^{x,j})\big)\bigg]\end{aligned}$$
+    </span>
+       These values we can easily calculate given that we have access 
+   to $K$ and thus get an estimate of the variance in the Partial
+    Dependency plot. A similar calculation yields the variance for 
+    the ICE-plot. Lastly, for the Variable Importance measure it is
+     more difficult to analytically obtain the variance. Thus we
+      instead estimate it by sampling functions from our Gaussian 
+      process and calculating the spread of the predicted Variable Importance values.
+       <br>
+       <br>
+        For the simple linear model above, the corresponding Partial Dependency plot 
+         and ICE plots can be seen below (the shaded regions indicate a 95% confidence interval for the prediction).
+         <img src="../img/blogImgs/permuteImgs/simple_PD.PNG" alt="Partial Dependency plot with variance" class="responsiveImg">
+         <img src="../img/blogImgs/permuteImgs/simple_ICE.PNG" alt="ICE plot with variance" class="responsiveImg">
+           The main feature of interest is $x_1$ since changing this feature can easily take
+           us into regions of extrapolation. 
+         We see that the model is able to provide uncertainty measures 
+       which reflect when we might not be able to trust our model, especially
+       for low and high $x_1$ values we can see that the uncertainty is high.
+       As mentioned before, this is the region where we might have to extrapolate
+       and thus the predictions should be uncertain. In the ICE plots we can see that 
+       some of the curves are uncertain at the beginning or the end. This is exactly what
+       we expect to see since by increasing one feature in isolation will take us either from the region 
+       of extrapolation into the region where we have data, or vice versa.
+       <br>
+       <br>
+
+       For the variable importance measure we get the following dot plot (feature names on the y-axes and VI-score on the x-axis, the black lines indicate 95% confidence intervals for the predicted value).
+       <img src="../img/blogImgs/permuteImgs/simple_VI.PNG" alt="VI plot with variance" class="responsiveImg">
+       
+       We can see here that we do get uncertainty in the importance 
+       of the different features, but that the result might not be as
+       clear as we had hoped. We can see that there is a large variance for the feature $x_2$ but the confidence interval does not 
+       reach the VI-measure for the $x_1$ feature as we might have hoped (since they should be equally important).
+       But at least we can get an indication that we might be extrapolating and thus might want to use other feature importance measures.
+        </div>
+       <h1><strong>Uncertainty estimation for real data sets</strong></h1>
+       <div class="contentText">
+       So how does this method work on some more "realistic" datasets? In order to investigate 
+       this I tried to method on the boston housing dataset and the diabetes dataset. Two famous datasets
+       in machine learning. The partial dependency and ICE plots for the Boston dataset can be seen below 
+       <img src="../img/blogImgs/permuteImgs/GP_PD_1.png" alt="Partial dependency plot on boston housing" class="responsiveImg">
+       <img src="../img/blogImgs/permuteImgs/GP_ICE_1.png" alt="ICE plot on boston housing" class="responsiveImg">
+  
+       As we can see, there is an indication that the predictions are uncertain for large crime rates for the boston housing dataset. 
+       There are actually few regions with a high crime rate in this dataset so in this case we might be said to extrapolate. But the variance 
+       is not large to deter us from the trend which indicates that a higher crime rate lowers the house price.
+       The ICE-plots do not yield much information in this case, but it can be seen that they decrease to the prior mean for high crime 
+       rates, another indication that we are extrapolating in this region. 
+       <br>
+       <br>
+       For the diabetes dataset we can see the partial dependency and ICE plots below.
+       <img src="../img/blogImgs/permuteImgs/diabetes_PD.png" alt="Partial dependency plot on diabetes" class="responsiveImg">
+       <img src="../img/blogImgs/permuteImgs/diabetes_ICE.png" alt="ICE plot on diabetes" class="responsiveImg">
+       
+       As can be seen from the partial dependency plot, there is almost no uncertainty in the predictions here. Either this is an indication that the model is 
+       not extrapolating, or that the model's uncertainty scores are not properly calibrated. The ICE-plots can be seen to be highly certain as well. Thus we do not gain any 
+       information by including an uncertainty prediction for this dataset.
+           </div>
+       <h1><strong>Conclusion</strong></h1>
+       <div class="contentText">
+       We investigated some permutation based feature importance measure. First we showcased a known
+       flaw with these measures, that they might be greatly affected by your models extrapolation 
+       capabilities. Given that they are greatly affected by extrapolation, we investigated how these measures 
+       work when we take the variance of the predictions into account as well, something which might indicate 
+       when we are extrapolating. While the method works well in a simple toy example, the advantage is not immediately 
+       clear for some more realistic data sets.
+    </div>
+  </div>
+  </div>
+</div>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+  <script type="text/javascript"
+    src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>  
+
+
+</body>
+</html> 

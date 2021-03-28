@@ -1,0 +1,437 @@
+
+
+html, body {
+
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    /*background-color: #0D0D0D;*/
+    background-color: #EEECE9;
+    background-color: #F3F2F0;
+    color: #ebebeb;
+}
+
+* {
+    box-sizing: border-box;
+  }
+
+
+:root {
+    --mainSiteColor: #468C5F;
+    --secondarySiteColor: #F3F2F0;
+    --readingTextFont: Arial, Helvetica, sans-serif;
+    --readingTextFontSize: 1.2em;
+    --readingTextColor: #222222;
+
+    --indexMainFontSize: calc(4.0vh + 6vw); /*4.0em;*/
+    --indexSecondaryFontSize: 1.2em; /*1.2em*/
+
+  }
+
+  /*These styles below need to be added to all the other documents*/
+
+  /*For left grid info*/
+.siteSmallTextFont {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: var(--indexSecondaryFontSize);/*calc(1.5vh + 1vw);*/
+}
+/*For text that should be read, like blog posts etc*/
+.siteReadingTextFont {
+    font-family: var(--readingTextFont);
+    font-size: var(--readingTextFontSize);/*calc(1.5vh + 1vw);*/
+    color: var(--readingTextColor);
+}
+
+.mainSiteColor {
+    /*background-color: #252A34;*/
+    background-color: var(--mainSiteColor);
+}
+
+.secondarySiteColor {
+    /*background-color: #112229;*/
+    background-color: var(--secondarySiteColor);
+}
+
+.mainFontColor {
+    /*color: #B4C0D1;*/
+    color: var(--mainSiteColor);
+    
+}
+
+.secondaryFontColor {
+    /*color: #B4C0D1;*/
+    color: var(--readingTextColor);
+}
+
+.buttonShadow {
+
+    color: var(--secondarySiteColor);
+    transition: background-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.buttonShadow:hover {
+    box-shadow: 0px 0px 0px 5px var(--secondarySiteColor);
+}
+
+.buttonShadow:focus {
+    box-shadow: 0px 0px 0px 5px var(--secondarySiteColor);
+}
+
+
+#titleName {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: var(--indexMainFontSize);/*calc(4.5vh + 7vw); /*9.5vw*/
+    color: var(--secondarySiteColor);
+    transition: text-shadow 0.4s ease;
+    cursor: pointer;
+}
+
+#titleName:hover {
+    /*text-shadow: 5px 5px #19d8c0;*/
+    text-shadow: 5px 5px var(--mainSiteColor), 7px 7px var(--secondarySiteColor);
+    
+}
+
+
+/*End of new styles*/
+
+#myGrid {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    grid-template-rows: 1fr;
+    height: 100vh;
+    width: 100vw;
+
+    grid-gap: 3px;
+    padding: 3px; /*3px was good I think*/
+}
+
+#leftGrid {
+
+    /*border: solid 2px;
+    border-color:#17181D;*/
+    /*background-color: #1e1e1e;*/
+    /*background-color: #222233;*/
+    
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    /*font-family: Arial, Helvetica, sans-serif;*/
+    /*color: #B4C0D1;*/
+
+}
+
+.leftGrids {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    /*font-size: calc(1.5vh + 2vw);*/
+}
+
+#l1 {
+    width: 100%;
+    grid-row-start: 1;
+    grid-row-end: 5;
+    padding-top: 7vw;
+    padding-left: 3.5vw;
+    padding-right: 3.5vw;
+    /*font-size: calc(1.5vh + 1.0vw);*/
+    
+}
+
+
+#l3 {
+    width: 100%;
+    grid-row-start: 5;
+    grid-row-end: 7;
+    /*font-size: calc(1.5vh + 1.0vw);*/
+}
+
+/* Maybe change this one to a class?*/
+/* Or I guess there is no reason to do it no*/
+#rightGrid{
+    /*background-color: #112229;*/
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr; /*repeat(3, 1fr);*/
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr; /*repeat(6, 1fr);*/
+    grid-gap: 3px;
+}
+
+#indexDataScienceBox {
+    /*color: #000000;*/
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    background-color: #DEDEDE;
+    
+}
+
+#indexProgrammingBox {
+    grid-row-start: 3;
+    grid-row-end: 5;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    background-color: #1e1e1e;
+}
+
+#indexArtBox {
+    grid-row-start: 5;
+    grid-row-end: 7;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    background-color: #1e1e1e;
+}
+
+#indexAllBox {
+    grid-row-start: 5;
+    grid-row-end: 7;
+    grid-column-start: 3;
+    grid-column-end: 5;
+    /*background-color: #1e1e1e;
+    background-color: #222233;
+    background-color: #252A34;*/
+}
+
+.zeroSpacep {
+    margin: 0;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
+    /*color: #AB5B27;*/
+}
+
+
+
+
+
+.itemBox {
+
+    text-align:center;
+    font-size: calc(3vh + 4vw);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: solid 0px;
+    border-color: white;
+
+    transition: border 0.8s ease, background-color 0.8s, color 0.8s, outline 0.2s;
+
+    /*color: #ebebeb;*/
+    color: #ebebeb;
+    text-shadow: 2px 2px #000000;
+    position:relative;
+    cursor: pointer;
+    outline: none;
+
+    outline: 0px solid white;
+}
+
+.itemBox:hover {
+    outline: 4px solid #dbaa09;
+    color: #bbbbbb;
+    /*border: solid 4px;*/
+    /*border-color: #19d8c0;*/
+    /*outline: 5px solid #468C5F;*/
+}
+
+.itemBox:focus, .itemBox:active {
+    border-color: #ebebeb;
+    color: #868686;
+}
+
+.infoBtns {
+    vertical-align: top;
+    /*width: calc(4vh + 2.5vw); /*55px and then 4vw
+    height: calc(4vh + 2.5vw);*/
+
+    /*width: calc(4.0vh + 4.0vw); 
+    height: calc(4.0vh + 4.0vw);*/
+
+    width: 3.5em;
+    height: 3.5em;
+    margin: 0.5em;
+
+
+    border: solid 3px;
+    
+    /*box-shadow: 0px 0px 0px 5px #1e1e1e;
+    box-shadow: 0px 0px 0px 5px #252A34;;*/
+    /*transition: box-shadow 0.4s;*/
+    outline: none;
+    cursor: pointer;
+}
+
+#roundBtn {
+    border-color: #F3F2F0;
+    /*color: #ffffff;*/
+    font-size: var(--indexSecondaryFontSize);/*1.4vw;*/
+    /*color: #ffffff;*/
+    border-radius: 50%;
+    font-weight: bolder;
+    /*background-color: #F09A16;*/
+    /*background-color: #1e1e1e;*/
+}
+/*
+#roundBtn:hover {
+    box-shadow: 0px 0px 0px 5px #30b2a8;
+}
+
+#roundBtn:focus {
+    box-shadow: 0px 0px 0px 5px #ebebeb;
+}
+*/
+#roundBtnGit {
+    
+    border-color:#ffffff;
+    /*color: #ffffff;*/
+    font-size: var(--indexSecondaryFontSize);/*1.4vw;*/
+    border-radius: 50%;
+    /*background-color: #ffffff;*/
+    background-image : url("../img/index/GitHub-Mark-64px.png");
+    
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+/*#roundBtnGit:hover {
+    box-shadow: 0px 0px 0px 5px #30b2a8;
+}
+
+#roundBtnGit:focus {
+    box-shadow: 0px 0px 0px 5px #ebebeb;
+}*/
+
+
+
+#rightInfoSpan {
+    display:inline;
+}
+
+#belowInfoSpan {
+    display:none;
+}
+
+#dataScienceCanvas {
+
+    position:absolute;
+    z-index: 0;
+
+    /*Scaling like this in css can mess up the canvas*/
+    /*width: 100%;
+    height: 100%;*/
+}
+
+#programmingCanvas {
+    /*border: 1px solid #00FF00;*/
+
+    position:absolute;
+    z-index: 0;
+
+    /*Scaling like this in css can mess up the canvas*/
+    /*width: 100%;
+    height: 100%;*/
+}
+
+#artCanvas {
+    /*border: 1px solid #00FF00;*/
+
+    position:absolute;
+    z-index: 0;
+
+    /*Scaling like this in css can mess up the canvas*/
+    /*width: 100%;
+    height: 100%;*/
+}
+
+.indexBoxText {
+    position:absolute;
+    z-index: 1;
+}
+
+
+.buttonWrapper {
+    z-index: 10;
+    /*padding-top: 1.5vh;*/
+    margin-top: 2.5vh;
+    padding-left: 3.5vw;
+    padding-right: 3.5vw;
+    background: linear-gradient(to bottom, var(--mainSiteColor) 48.5%, var(--secondarySiteColor) 48.5%, var(--secondarySiteColor) 51.5%,var(--mainSiteColor) 51.5%);
+}
+
+/*START OF OLD*/
+
+
+@media screen and (max-width: 700px) {
+    /*  body {
+        background-color: lightblue;
+      }*/
+
+      #myGrid {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 110vw;
+        width: 100%;
+        
+    }
+  
+      #leftGrid {
+          grid-column-start: 1;
+          grid-column-end: 3;
+          grid-row-start: 1;
+          grid-row-end: 2;
+
+      }
+      
+      #rightGrid{
+          grid-column-start: 1;
+          grid-column-end: 3;
+          grid-row-start: 2;
+          grid-row-end: 3;
+      }
+      
+      .infoBtns {
+        /*margin: calc(0.7vh + 0.2vw);
+        width: calc(5vh + 2.5vw); /*55px and then 4vw
+        height: calc(5vh + 2.5vw);*/
+
+        width: 3.5em;/*calc(10vh + 1.0vw); */
+        height: 3.5em;/*calc(10vh + 1.0vw);*/
+        margin: 0.5em;/*calc(0.2vh + 0.35vw);*/
+        font-size: 1em;
+      }
+
+      #roundBtnGit {
+        /*font-size: 1em;*/
+      }
+
+      #l1 {
+        /*font-size: calc(2.6vh + 0.5vw);*/
+    }
+
+    #belowInfoSpan {
+        display:inline;
+    }
+
+    #rightInfoSpan {
+        display: none;
+    }
+
+    /*#roundBtn {
+        font-size: 1.8vw;
+    }*/
+
+}
+

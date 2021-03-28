@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Anton Johansson</title>
+    <link rel="stylesheet" href="../styles/styleIndexColumn.css">
+    <link rel="stylesheet" href="../styles/cvStyle.css">
+</head>
+<body>
+
+<!--Slight issue when going from one of the boxes to the blog posts, and then clearing the field
+when backing later then the field is still cleared but the items that are shown are as if the string was still
+being searched for.-->
+
+<!--<div id="aa"></div>-->
+
+<div id="d1">
+    <div id="headerGrid">
+        
+        <p class="zeroSpacep">Hello, I'm</p>
+        <div id="headerGrid1">
+        <span id="titleName" onclick="location.href='../index.html';">Anton</span>
+        </div>
+
+        <div id="headerGrid2">
+            <div class="buttonWrapper"><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow mainFontColor" onclick="location.href='../blog_posts/blogHome.html';">Blog</button><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow" onclick="location.href='CV.html';">About</button><button id="roundBtnGit" class="infoBtns buttonShadow" onclick="location.href='https://github.com/antonFJohansson';"></button></div>
+        </div>
+    </div>
+</div>
+
+<div id="d2">
+
+  <div id="rightGrid">
+            
+    <div id="main" class="mainItems">
+
+      <div id="buttonWrapper">
+      <button id="leftMainBtn" class="flipPageBtn" onclick="showCV()">CV</button> <button id="rightMainBtn" class="rightMainBtn flipPageBtn" onclick="showAboutMe()">About me</button>
+      </div>
+
+      <div id="cvWrapAll" style="display:none;">
+
+        <div id="contentTitle">CV</div>
+        <h2><strong>Occupation</strong></h2>
+        <div class="cvWrapper">
+            <strong>PhD student in Mathematics</strong>, Chalmers University of Technology,<br>
+            <span> August 2018 - Current.</span> <br>  
+            <ul>
+            <li>Duties consists of 80% research and 20% teaching.</li>
+            <li>Main research investigates model selection criteria for neural network models.</li>
+            <li>Publications:
+                <ul>
+                    <li><i>Does the dataset meet your expectations? Explaining sample representation in image data</i>. Presented at BNAIC 2020. <a href="https://arxiv.org/abs/2012.08642">[Arxiv link]</a></li>
+                </ul>
+            </li>
+            <li>Supervised master projects:</li>
+            <ul>
+                <li><i>Developing a Cooperative Data Cleaning Tool</i> by Devosmita Chatterjee. [Github][Article]</li>
+            </ul>
+            <li>Previous teaching
+                <ul>
+                <li>Mathematical Statistics</li>
+                <li>Single-variable Calculus</li>
+                <li>Stochastic Processes</li>
+                <li>Introduction to Data Science and AI</li>
+                </ul>
+            </li>
+            
+        </div>
+        <br>
+        <div class="cvWrapper">
+            <strong>Research assistant</strong>, Chalmers University of Technology,<br>
+            <span> June 2018 - August 2018.</span> <br>  
+            <ul>
+            <li>Developed a program in <i>R</i> to group protein sequences  after their function and find mislabeled sequences.</li>
+            <li>Implemented algorithms and made the program user-friendly.</li>
+            </ul>
+        </div>
+        <br>
+        <div class="cvWrapper">
+        <strong>Supplementary Instructor</strong>, Chalmers University of Technology,<br>
+        <span> 2016 - 2018.</span> <br>  
+        <ul>
+          <li>Held exercise sessions for students in Mathematics, Statistics and Programming.</li>
+          <li>Answered the students' questions, demonstrated solutions on the black board and encouraged group discussions.</li>
+        </ul>
+        </div>
+        <br>
+        <div class="cvWrapper">
+        <strong>Supplementary Instructor</strong>, Karlstad's University,<br>
+        <span> 2014 - 2016.</span> <br>  
+        <ul>
+          <li>Held exercise sessions for students in Mechanics and Mathematics.</li>
+          <li>Answered the students' questions, demonstrated solutions on the black board and encouraged group discussions.</li>
+        </ul>
+    </div>
+        <br>
+        <h2><strong>Education</strong></h2>
+        <div class="cvWrapper">
+      <strong>Chalmers University of Technology</strong>,<span> 2016 - 2018.</span> <br>
+        Master's degree in <strong>Engineering Mathematics and Computational Science</strong>.<br>
+        Master's thesis: Gaussian Processes for Protein Sequences. 
+        </div>
+        <br>
+        <br>
+        <div class="cvWrapper">
+        <strong>Karlstad's University</strong>,<span> 2013 - 2016.</span> <br>
+        Bachelors's degree in <strong>Engineering Physics</strong>.<br>
+        Bachelor's thesis: Bi-directional flow in the Social Force Model.
+    </div>
+  </div>  
+
+
+  <div id="aboutMeWrapAll">
+    <div id="contentTitle">About me</div>
+    <h2 class="blog-content-h2"><strong>Me</strong></h2>
+    <div class="cvWrapper">
+      I am a native Swede currently residing in Göteborg, Sweden.
+      I have an interest in mathematics, programming, machine learning and art which I try and share through this blog.
+      The blog mostly consists of my own personal projects and writings of concepts/ideas I encounter at work.
+      I enjoy webcontent when it is interactive or visual, something which I try and incorporate here as well.
+      <br>
+      <br>
+      If there are any questions regarding anything, then feel free to contact me at 
+      <br>
+      erik&#097;&#110;&#116;&#111;&#110;johansson&#064;live.com
+      
+  </div>
+    
+  </div>
+
+      
+          <!--<button id="leftMainBtn" class="flipPageBtn" onclick="goToRecentPosts()">Newer Posts</button> <button id="rightMainBtn" class="rightMainBtn flipPageBtn" onclick="goToPreviousPosts()">Older Posts</button>    -->
+
+
+
+</div>
+
+</div>
+
+  <!--<script src="scripts/utilsIndex.js"></script>-->
+ <!-- <script src="../scripts/blogInfo.js"></script>
+ <script src="../scripts/loadBlogInfo.js"></script>-->
+
+    </div>
+
+</div>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+ <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+ <script src="../scripts/about.js"></script>
+    
+
+</body>
+</html>

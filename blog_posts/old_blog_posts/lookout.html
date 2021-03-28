@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../styles/blogstyle.css">
+</head>
+
+<body>
+
+<div id="myGrid">
+  
+  <div id="topBar" class="mainItems"><span id="nameSpan"><a class="topLinks" href="../index.html">Anton</a></span> </div>
+  <div id="projectInfo"><a class="topLinks" href="blogHome.html">Projects</a></div>
+  <div id="otherInfo"> <button id="roundBtn" class="infoBtns">CV</button><button id="roundBtnGit" class="infoBtns" onclick="location.href='https://github.com/antonFJohansson';"></button><button id="linkedInBtn" class="infoBtns"></button></div>
+
+  <div id="main" class="mainItems">
+    <div id="contentTitle">Lookout: A Method to Interpret Outliers</div>
+       <div class="contentText">
+        
+        I recently co-supervised a master's project at Volvo which aimed to create a <i>Data Cleaning Tool</i> 
+        (the tool can be found <a href="https://github.com/devosmitachatterjee2018/DataCleaningTool">here</a>).
+        Given that the data we encounter in practice often contains errors such as misspellings, 
+        inconsistent classes, infeasible values etc, there is a need for tools that provide easy and
+         intuitive ways to clean the data.
+         <br>
+         <br>
+       While detecting and fixing, e.g, misspellings can be relatively easy, not all errors
+        are as easily fixed. One such error is outliers. The issue with outliers is that
+         it might not always be clear if these outliers represent some aspect of the data
+          which we have not considered (a patient with a relatively normal weight but with
+           an abnormal blood pressure could indicate that this patient is suffering from a
+            hidden disease), or if they are complete noise and should be disregarded (measurements 
+            which are nonsense due to electrical failures in the measurement devices). Thus detecting 
+            outliers and removing them is not always the optimal solution to data cleaning,
+             we also need to understand why a given data point was classified as an outlier. 
+             Otherwise we might remove parts of the data that can be important for our end-goal.
+             <br>
+             <br>
+             
+       While there exists a few different methods for explaining outliers (see <a href="https://arxiv.org/abs/1911.02617">[1]</a>, <a href="https://ieeexplore.ieee.org/document/6729536">[2]</a>, <a href="https://www.ijcai.org/Proceedings/2018/0341.pdf">[3]</a>),
+        the one that seemed especially interesting was <a href="https://www.andrew.cmu.edu/user/lakoglu/odd/accepted_papers/ODD_v50_paper_24.pdf"><i>LookOut</i></a>.
+        Some benefits with LookOut are: 
+         <ul>
+             <li>It is method agnostic, i.e, we can still use our favorite outlier detecting method and still obtain explanations.</li>
+             <li>It explains outliers in terms of the original features which makes it easily interpretable.</li>
+             <li>It is easy to implement (My implementation can be found on <a href="https://github.com/antonFJohansson/LookOut-for-Pictorial-Explanation">github</a>).</li>
+         </ul>
+       So how does it work?
+    </div>
+       <h2><strong>LookOut</strong></h2>
+       <div class="contentText">
+       LookOut bases its method on the fact that 2-dimensional plots are interpretable 
+       and that an analyst has limited attention. For some analysts, a data set with 
+       10 features might be considered low-dimensional. But just having 10 features gives
+        45 2-dimensional plots that can be created from all the different feature pairs.
+         For an analyst to try and stare through 45 plots to detect and understand outliers
+          is quite an effort. LookOut instead proposes that we should work with a
+           <i>plot budget</i>, i.e, we should only display a few number of plots 
+           which the analyst can easily study. Given a set of outliers in the data,
+            these plots are chosen by finding the feature pairs that maximize the 
+            outlier score for the outliers. In addition, in order to make it easy 
+            for the analyst to explain a given outlier, each outlier is only
+             explained through a single plot so that there are not multiple
+              explanations for why it is deemed an outlier.
+              <br>
+              <br>
+       Mathematically we can formulate this as an optimization problem.
+        If we have a set of outliers $\mathcal{A}$ we seek to explain,
+         then given that the plot budget is denoted by $b$, the set of all possible
+          feature pair plots as $\mathcal{P}$, the set of feature-pair
+           plots to display as $S$ and the outlier score for outlier $i$ when we
+            only consider the feature-pair $j$ as $s_{i,j}$, we can formulate the optimization problem as
+       $$\max_{S \subset \mathcal{P}, |S| = b} f(S) = \sum_{a_i \in \mathcal{A}} \max_{p_j \in S} s_{i,j}.$$
+       While obtaining the optimal solution is NP-hard, $f(S)$ can be shown to be sub-modular,
+        non-negative and non-decreasing. These functions allow for efficient
+         greedy optimization routines where we have a guarantee of obtaining a no worse solution
+          than that of 63\% of the optimal one. Thus by using a greedy scheme, we can obtain an approximate solution can be obtained as follows
+          <ol>
+              <li>Fit an outlier detection method to all possible feature pairs.</li>
+              <li>For i=1:b</li>
+              <ol>
+                   <li>Add the feature-pair $p \in \mathcal{P}$ that maximizes the marginal gain</li>
+                   $$f(S \cup \{p\}) - f(S)$$
+                   <li>Remove the added feature pair $p$ from $\mathcal{P}$.</li>
+              </ol>
+          </ol>
+       The approximate solution can then be displayed to the analyst which allows
+        them to reason and argue regarding why an outlier was deemed an outlier.
+    </div>
+        <h2><strong>Results</strong></h2>
+       <div class="contentText">
+       While the authors convincingly demonstrate the method 
+       on some examples in the article, I wanted to try it on some
+        other data sets to get a feel for the method on my own. I chose
+         to try it on the classical Fisher Iris data set, a Forest Fire
+          data set and a Bike Sharing data set. The results are as follows
+        </div>
+          <h2><strong>Iris data</strong></h2>
+          <div class="contentText">
+       Iris data is a classical machine learning data set of the length and
+        width measurements of the sepals and petals of three different kinds
+         of Iris flowers. By running LookOut and choosing the plot budget to
+          2, the 5 most extreme outliers can be explained as follows (outliers are marked in orange):
+          <img src="../img/blogImgs/lookout/iris_img.PNG" alt="Results on Iris data set" class="responsiveImg">
+          
+       We see that the outliers are (not surprisingly) explained by unusually
+        extreme measurements for the two selected features.
+    </div>
+        <h2><strong>Forest Fires data</strong></h2>
+        <div class="contentText">
+       This <a href="https://archive.ics.uci.edu/ml/datasets/Forest+Fires">data set</a> consists of measurements related to forest fires in northern Portugal.
+        The features consist of information related to position,
+         weather and moisture conditions in the forests.
+          The features that we will need to understand for the ensuing plots are
+          <ol>
+              <li>rain: outside rain in mm/m2</li>
+              <li>FFMC - FFMC index from the FWI system (a measure of moisture in forest litter)</li>
+              <li>wind: wind speed in km/h</li>
+              <li>Y: y-axis spatial coordinate within the Montesinho park map</li>
+              <li>temp: temperature in Celsius degrees</li>
+          </ol>
+       
+       By running LookOut and choosing the plot budget to 3,
+        the 8 most extreme outliers can be explained as follows (outliers are marked in orange)
+        <img src="../img/blogImgs/lookout/fire_img.PNG" alt="Results on Forest Fires data set" class="responsiveImg">
+        
+       From the plots we might be able to deduce that
+       <ol>
+           <li>Observation 499 was deemed an outlier because of the unusual rain amount that fell during that forest fire.</li>
+           <li>Observation 65 and 75 were deemed outliers due to the unusual low temperatures in those regions of the parks.</li>
+       </ol>
+       
+       We can also obtain explanations for the other outliers but these might not be as clear.
+    </div>
+       <h2><strong>Bike sharing data</strong></h2>
+       <div class="contentText">
+       This <a href="https://archive.ics.uci.edu/ml/datasets/Bike+Sharing+Dataset">data set</a> consists of information related to a bike rental
+        during the period 2011- 2012. The features are related to information
+         for each specific day such as weather, holiday, temperature, time of year etc.
+       The features that we will need to understand for the ensuing plots are
+       <ol>
+           <li>weathersit: Scale 1 - 4 with 1 being few clouds and 4 being heavy rain.</li>
+           <li>holiday: Binary, whether it is holiday or not.</li>
+           <li>yr: Binary, 0 for 2011, 1 for 2012.</li>
+           <li>atemp: Normalized temperature in Celcius (the description says feeling temperature which I interpret as the experienced temperature).</li>
+           <li>windspeed: Normalized wind speed.</li>
+       </ol>
+       
+       By running LookOut and choosing the plot budget to 3,
+        the 8 most extreme outliers can be explained as follows (outliers are once again marked in orange):
+        <img src="../img/blogImgs/lookout/bicycle_img.PNG" alt="Results on Bike Sharing data set" class="responsiveImg">
+        
+       We can see that the interpretations are not as clear as for the other two cases.
+        Or while we can interpret point 368 as being an outlier due to it being a
+         holiday with good weather, it is not clear why not the other similar
+          days as this one were regarded as outliers. This is an issue when
+           using the method on naively on datasets with multiple categorical
+            attributes. Data points 307 can be seen to be an outlier due
+             to the fact that that day had an abnormally high windspeed 
+             with a low experienced temperature.
+            </div>
+             <h2><strong>Conclusion</strong></h2>
+             <div class="contentText">
+       Being able to reason and argue for why an observation is deemed an outlier
+        is an important step on the path to understanding our data sets.
+         LookOut provides a method to interpret outliers by finding which 
+         feature pairs that can provide the best explanation for why the
+          observations were deemed as abnormal. While the obtained 
+          explanations can be difficult to interpret for some 
+          data sets, it can provide meaningful explanations in many other cases.
+          Ultimately, it is a method that I will consider using in my future data analysis.
+        </div>
+
+
+  </div>
+  </div>
+</div>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+  <script type="text/javascript"
+    src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>  
+
+
+</body>
+</html> 

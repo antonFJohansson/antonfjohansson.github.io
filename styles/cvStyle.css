@@ -1,0 +1,160 @@
+
+
+html, body {
+
+
+}
+
+
+
+#rightGrid{
+
+    display: inline;
+    overflow-y: auto;    
+}
+
+
+
+#main {
+    width: 80%;
+    margin: auto;
+    overflow: auto;
+    /*color: #6A7180;*/
+    color: #ebebeb;
+    /*padding-top: 3em;*/
+    padding-bottom: 2em;
+    background-color: #B4C0D1;
+    background-color: #F3F2F0;
+    
+    
+
+    
+    /*transition: 0.1s;*/
+}
+
+.mainItems {
+    /*background-color: #112229;*/
+    background-color: #1e1e1e;
+    background-color: #F3F2F0;
+}
+
+
+
+
+@media screen and (max-width: 700px) {
+    html, body {
+        overflow-y: visible;
+    }
+
+    #rightGrid {
+        overflow-y: visible;
+    }
+    #myGrid {
+        grid-template-rows: auto auto;
+    }
+
+}
+
+
+  #main h2 {
+    font-size: 2em;
+    color: #468C5F;
+  }
+  
+  #main h3 {
+    font-size: 1.5em;
+    color: #468C5F;
+  }
+  
+  #main a {
+    color: #468C5F;
+  }
+
+  #contentTitle {
+    margin-top: 1em;
+    font-size: 3.5em;
+    text-align: center;
+    color: #468C5F;
+    margin-bottom: 0.5em;
+    /*line-height: 5em;*/
+}
+
+  .cvWrapper {
+
+    border-left: 3px solid;
+    border-color: #468C5F;
+    padding-left: 1em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    color: #222222;
+  }
+
+
+#buttonWrapper {
+  padding-top: 1em;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+  #leftMainBtn {
+  
+    border-radius: 2em 0px 0px 2em;
+    margin-right: 1em;
+    display: inline;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+#rightMainBtn {
+  
+    /*grid-row: 11 / 12;*/
+    border-radius: 0px 2em 2em 0px;
+    margin-left: 1em;
+    display: inline;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+
+.flipPageBtn {
+    /*background-color: #B4C0D1;*/
+    /*background-color: #112229;*/
+    /*background-color: red;*/
+    /*color: #19d8c0;*/
+    /*color: #ebebeb;*/
+    color: var(--mainSiteColor);
+    font-weight: bolder;
+    height: 2em;
+    border: 4px solid var(--mainSiteColor);
+    height: 3em;
+    font-size: 1em;
+    width: 10em;
+
+
+    /*width: 100%;*/
+    transition: background-color 0.8s, color 0.2s, border 0.4s ease;
+    cursor: pointer;
+    outline: none;
+
+}
+
+.flipPageBtn:hover {
+    border: 8px solid var(--mainSiteColor);
+    
+    /*background-color: #19d8c0;*/
+    /*color: #252A34;*/
+}
+
+.flipPageBtn:focus {
+   /* background-color: #139e8c;
+    color: #252A34;*/
+    border: 8px solid var(--mainSiteColor);
+}

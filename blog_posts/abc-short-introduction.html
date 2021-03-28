@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Anton Johansson</title>
+    <link rel="stylesheet" href="../styles/styleIndexColumn.css">
+    <link rel="stylesheet" href="../styles/blogstyleReform.css">
+</head>
+<body>
+
+<!--Slight issue when going from one of the boxes to the blog posts, and then clearing the field
+when backing later then the field is still cleared but the items that are shown are as if the string was still
+being searched for.-->
+
+<!--<div id="aa"></div>-->
+
+<div id="d1">
+    <div id="headerGrid">
+        
+        <p class="zeroSpacep">Hello, I'm</p>
+        <div id="headerGrid1">
+        <span id="titleName" onclick="location.href='../index.html';">Anton</span>
+        </div>
+
+        <div id="headerGrid2">
+            <div class="buttonWrapper"><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow mainFontColor" onclick="location.href='blogHome.html';">Blog</button><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow" onclick="location.href='../About/about.html';">About</button><button id="roundBtnGit" class="infoBtns buttonShadow" onclick="location.href='https://github.com/antonFJohansson';"></button></div>
+        </div>
+    </div>
+</div>
+
+<div id="d2">
+
+    <div id="rightGrid">
+            
+        <div id="main" class="mainItems">
+          <div id="contentTitle">A Look at Approximate Bayesian Computation</div>
+          <h2><strong>Introduction</strong></h2>
+  <div class="contentText">
+
+      
+
+      For those familiar with Bayesian statistics, most probably know that the update
+       rule to infer the posterior distribution containing knowledge about
+        the parameters \(\theta\) given data \(y\) is given as
+      $$p(\theta|y) = \frac{p(y|\theta)p(\theta)}{p(y)}.$$
+      While writing the rule out might be simple, depending on the involved densities,
+       calculating the posterior density could be difficult. What people might 
+       not be aware of is that one can also obtain the posterior distribution through 
+       an easy simulation based approach. If we have access to a way of easily 
+       simulating samples \(\theta \sim p(\theta)\) and \(y \sim p(y|\theta)\),
+        then we can obtain posterior samples \(\theta \sim p(\theta|y)\) as follows:
+        <ul>
+          <li>Simulate \(\theta \sim p(\theta)\) and subsequently \(y \sim p(y|\theta)\).</li>
+          <li>If \(y\) equals the observed data, then accept the corresponding \(\theta\) as a sample from the posterior distribution.</li>
+        </ul>
+      
+      
+      I will demonstrate this with a toy example first, and then show how this 
+      idea can be extended to what is known as <i>Approximate Bayesian Computation</i> (ABC).
+      <br>
+      <br>
+      In the toy example, we will have observed 5 coin flips which gave the sequence
+      \([T,T,T,T,H]\) (four tails followed by one head). We are now interested in obtaining the posterior distribution for \(p\),
+        the probability of obtaining heads in a coin flip. The coin flip is easily modelled
+       by using the Binomial distribution and we put a uniform prior on \(p\). We sample \(p\)
+        from the prior and simulate 5 coin flips, if they are equal to the sequence
+        \([T,T,T,T,H]\) then we keep \(p\) as a sample from the posterior distribution. 
+      This model is easy to investigate since we can also calculate that the true 
+      posterior distribution is given as Beta(2,5), and thus we can compare our 
+      results with the ground truth.
+      The histogram obtained from the sampling scheme and the density of the true 
+      posterior can be seen below.
+      
+      <img src="../img/blogImgs/abcIntro/ABC_first_hist_new.png" alt="ABC histogram" class="responsiveImg">
+      
+      As can be seen from the figure, we can obtain samples from the
+       posterior with this scheme. Notice here how we actually 
+       did not need to know the functional form of the likelihood
+        and prior to obtain samples from the posterior distribution,
+         all we needed was a way to obtain samples from the two distributions.
+          This is advantageous when we are working with complex simulation
+           based models, where it can be easy to simulate observations from 
+           the model, but it might be difficult to write out a mathematical
+            expression for the likelihood and prior.
+      
+      
+      
+        </div>
+
+        <h2><strong>Approximate Bayesian Computation</strong></h2>
+      <div class="contentText">
+          We can extend this scheme to the situation where 
+          we do not require that our observed \(y\) should precisely
+           equal the observed data. We might be satisfied if 
+           the data comes close enough to the observed data. 
+           Thus if the sampled data \(y\) lies within a distance 
+           \(\epsilon\) of the observed data \(\tilde{y}\) (i.e, \(d(\tilde{y}, y) \leq \epsilon\) for 
+           some suitable distance measure \(d\)) then we accept the corresponding \(\theta\) 
+           used to obtain the sample \(y\) as a sample from the posterior distribution.
+            While this scheme allow us to loosen the stringent requirement of equality
+             between \(y\) and \(\tilde{y}\), it does not solve the issue that it can be
+              time-consuming to obtain samples sufficiently close to the observed data.
+               For small sample sizes it can work ok, but as soon as we work with larger 
+               samples than it can be difficult to obtain samples in the neighbourhood 
+               of the observed data. Therefore we can often instead of working with the
+                original observed data \(\tilde{y}\), work with some form of reduced form,
+                 e.g, summary statistics of \(\tilde{y}\) (and thus see if the distance 
+                 between summary statistics \(d(S(\tilde{y}), S(y))\) is sufficiently small). 
+                 Lastly, as with all sampling methods it is more efficient to use some 
+                 form of MCMC method to exploit knowledge about previously accepted samples
+                  to speed up the sampling scheme compared to using a naive rejection 
+                  sampling approach. For this post, I will use ABC sampling in 
+                  the Metropolis-Hastings algorithm, but the method is not 
+                  restricted to this MCMC algorithm. In this ABC-MCMC scheme we
+                   sample as follows
+
+                   <ol>
+                       <li>(Initialization) Sample \(\theta \sim p(\theta)\) and \(y \sim p(y|\theta)\) until \(d(S(\tilde{y}),S(y)) \leq \epsilon\). Save the corresponding \(\theta\).</li>
+                       <li>(Start of MCMC) Sample a new \(\theta^* \sim q(\theta^*|\theta)\) (where \(q\) is some distribution that allows us to sample in the neighbourhood of \(\theta\), e.g, Gaussian).</li> 
+                       <li>Sample a corresponding \(y^* \sim p(y|\theta^*)\).</li>
+                       <li>Check if \(d(S(\tilde{y}),S(y^*)) \leq \epsilon\), if not, go back to step 2 and sample another \(\theta^*\). If it is, then continue.</li>
+                       <li>Calculate the acceptance probability $$\alpha = \min \bigg( 1, \frac{p(\theta^*)}{p(\theta)}\frac{q(\theta|\theta^*)}{q(\theta^*|\theta)}\bigg)$$</li>
+                       <li>Sample \(u \sim  U[0,1]\). If \(u \leq \alpha\), accept \(\theta^*\) as as sample from the posterior and set \(\theta = \theta^*\). Repeat the entire procedure from Step 2.</li>
+                   </ol>
+
+
+The point of displaying the algorithm is to see that is it
+not much more complex than a standard MCMC-routine.
+
+<h2><strong>What has ABC been used for?</strong></h2>
+From the above description it might be difficult to
+gauge how valuable the method is. ABC has allowed for
+inference to be made in fields which previously posed
+ great difficulties. For example, in biology there
+  exists a wide variety of complex models for simulating
+   how animals behave and reproduce, models which
+    often does not have a tractable likelihood.
+     As mentioned, with the use of ABC-methods we do not
+      need the exact form of the likelihood and only require
+       access to the simulation models. This has allowed
+        for the inference of complex properties in, e.g,
+        <a href="https://pubmed.ncbi.nlm.nih.gov/12524368/">population genetics</a>.
+          and <a href="https://www.annualreviews.org/doi/10.1146/annurev-ecolsys-102209-144621">evolution</a>. 
+         Other fields where ABC-methods have been employed are 
+         <a href="https://arxiv.org/abs/1611.03087">cosmology</a>,
+         <a href="https://arxiv.org/abs/0912.4729">finance</a>,
+         <a href="https://arxiv.org/abs/1007.4603">communications engineering</a>. There 
+         are many more fields which have employed ABC-methods which I have not listed. 
+           Any field where one  works with complex models that can be simulated from but 
+            which might be difficult to infer properties about might 
+            be a field where ABC-methods can be useful. Hopefully this post either inspired you to 
+            take a closer look at these methods or that you gained a new perspective on Bayes rule.
+
+      </div>
+      
+</div>
+      
+          <!--<button id="leftMainBtn" class="flipPageBtn" onclick="goToRecentPosts()">Newer Posts</button> <button id="rightMainBtn" class="rightMainBtn flipPageBtn" onclick="goToPreviousPosts()">Older Posts</button>    -->
+
+
+
+</div>
+
+</div>
+
+  <!--<script src="scripts/utilsIndex.js"></script>-->
+ <!-- <script src="../scripts/blogInfo.js"></script>
+ <script src="../scripts/loadBlogInfo.js"></script>-->
+
+    </div>
+
+</div>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+ <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!--<script src="scripts/utilsIndex.js"></script>-->
+
+</body>
+</html>

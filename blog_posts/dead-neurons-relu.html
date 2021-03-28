@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Anton Johansson</title>
+    <link rel="stylesheet" href="../styles/styleIndexColumn.css">
+    <link rel="stylesheet" href="../styles/blogstyleReform.css">
+</head>
+<body>
+
+<!--Slight issue when going from one of the boxes to the blog posts, and then clearing the field
+when backing later then the field is still cleared but the items that are shown are as if the string was still
+being searched for.-->
+
+<!--<div id="aa"></div>-->
+
+<div id="d1">
+    <div id="headerGrid">
+        
+        <p class="zeroSpacep">Hello, I'm</p>
+        <div id="headerGrid1">
+        <span id="titleName" onclick="location.href='../index.html';">Anton</span>
+        </div>
+
+        <div id="headerGrid2">
+            <div class="buttonWrapper"><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow mainFontColor" onclick="location.href='blogHome.html';">Blog</button><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow" onclick="location.href='../About/about.html';">About</button><button id="roundBtnGit" class="infoBtns buttonShadow" onclick="location.href='https://github.com/antonFJohansson';"></button></div>
+        </div>
+    </div>
+</div>
+
+<div id="d2">
+
+    <div id="rightGrid">
+            
+        <div id="main" class="mainItems">
+          <div id="contentTitle">A Short Note on Dead Neurons in Relu Networks</div>
+          <h2><strong>Introduction</strong></h2>
+          <div class="contentText">
+              One potential issue with the design of neural network architectures
+               with the relu activation function that I had managed to overlook 
+               until recently is that of dead neurons. Dead neurons are neurons 
+               that always output 0 no matter the input. While for most architectures
+                these dead neurons does not play a role in the overall performance of
+                 the model, there are some specific cases where they can have a large
+                  detrimental effect.
+          </div>
+          <h2><strong>Why do there exists dead neurons?</strong></h2>
+          <div class="contentText">
+              First off, dead neurons can occur in a hidden
+               layer not directly connected to the input layer.
+                There it can occur if the weights and biases leading
+                 to a neuron are such that the resulting activation
+$$z(x) = relu(\sum_{i}w_ix_i + b)$$
+is 0 for all \(x_i\). Since the neural network mapping can be complex
+it is not always clear when this occurs, but there exists
+a case when it can easily be understood and avoided.
+ That is the case when all the weights and biases are negative. 
+ Since the output from previous layers are always non-negative due
+  to the relu activation function, the multiplication between the negative
+   weights with the non-negative output is guaranteed to yield
+    \(\sum_{i}w_ix_i + b < 0 \) which means \(z(x) = relu(\sum_{i}w_ix_i + b) = 0\). Assuming 
+    the loss function is denoted as \(L\), the gradients for the weights and bias are given as
+              $$
+    \begin{align}
+  &\frac{dL}{dw_i} = \frac{dL}{dz}\frac{dz}{dw_i} = \frac{dL}{dz}\cdot 0 = 0,\\
+  &\frac{dL}{db} = \frac{dL}{dz}\frac{dz}{db} = \frac{dL}{dz}\cdot 0 = 0.
+\end{align}
+$$
+Thus the network will never modify the weights or biases associated 
+with this neuron during training and it will remain dead,
+effectively just wasting computational resources.
+
+So the next question is then how likely it is that all
+weights and biases are 0? While it can be difficult to estimate
+how likely it is that neurons die during training, i.e, 
+that they are active but during some gradient update they turn dead,
+ it is not as difficult to see how likely it is that they are dead at 
+ initialization. Given that we choose our weights and bias from
+  normal distributions with mean 0 and some variance, then we know 
+  that the probability that a weight or bias is negative is given as \(1/2\). 
+  Since most of the time we choose all weights and bias independently of 
+  each other, the probability that a neuron with \(n\) incoming connections
+   and one bias is dead is given as \(1/2^{n+1}\).
+
+          </div>
+          <h2><strong>What does this mean in practice?</strong></h2>
+          <div class="contentText">
+              For most networks this does not cause an issue.
+               Most networks contain so many neurons in every layer,
+                and thus multiple incoming connections to each neuron,
+                 that the probability that a neuron is dead small.
+                  And even if a neuron is dead at initialization, 
+                  the networks are usually of such large size that 
+                  the absence of a single neuron does not change the 
+                  resulting network much. 
+
+              But when one is designing small networks or networks
+               where the layers go from containing few neurons to
+                many, then the probability \(1/2^{n+1}\) might be 
+                non-negligible and one might want to take some extra care
+                 in ensuring that no neuron is dead at initialization.
+                  Otherwise one might end up with a smaller complexity
+                   of the network than one intended, and thus might not
+                    be able to learn the patterns that one is interested in.
+
+              To put the probability into perspective, I made a
+               small tool below where you can easily visualize how likely 
+               it is that a neuron will be dead for different layer sizes.
+               You can add or remove layers from the network. To initialize the parameters of 
+               the network, press the "Initialize parameters" button. The biases are visualized as 
+               a separate node above the neurons (have to initialize the parameters to see them). 
+               Dashed lines correspond to parameters that are non-positive and solid lines to parameters that are positive.
+               A fully filled black circle indicates that the neuron is not dead while an empty circle with a black border indicates that the neuron is dead.
+               By playing around a bit with the tool and pressing "Initialize parameters" multiple times, we can get a feel for when these dead neurons are likely to occur.
+               For example, if we have a small layer (around 2 neurons) leading to a larger layer (more than 10) then it is likely that one of the neurons in the larger layer will be dead. Try it out!
+            <br>
+              <button onclick="initializeParameters()" style="display:inline-block;">Initialize parameters</button>
+              <div id="canvasBtnWrapper">
+                  <div id="cBtnWrapper">
+                      <div id="cBtnWrap0" style="display:inline-block;"><button id="canvasBtn0" onclick="removeBtn(0)">-</button><input id="inp0" type="number" min="1" value="2" style="width:3em;" onchange="createNewNet()"/></div>
+                      <div id="cBtnWrap1" style="display:inline-block;"><button id="canvasBtn1" onclick="removeBtn(1)">-</button><input id="inp1" type="number" min="1" value="4" style="width:3em;" onchange="createNewNet()"/></div>
+                      <button id="canvasAddBtn" onclick="addButton()">+</button>
+                  </div>
+              </div>
+
+              <canvas id="deadNeuronCanvas" style="border: 1px dotted black; width: 100%;"></canvas>
+            Note that in this tool then the output layer can contain dead neurons. This is only true if we assume that 
+            we are also applying a relu activation function to the output of the network, something that is rarely done in practice. 
+            One might also be interested in the probability of obtaining <i>useless</i> neurons. While there is no formal definition of what this is,
+            when I say useless I mean that the neuron is never activated. While dead neurons are useless neurons, these can also occur even if the parameters leading to the neuron are positive, e.g, if 
+            all previous neurons are dead. The probability for a useless neuron at initialization can also be calculated, but it is a bit more cumbersome since one 
+            has to take into account the probability that previous layers contain dead neurons. I leave this as an exercise to the reader.
+            
+            </div>
+      
+</div>
+      
+          <!--<button id="leftMainBtn" class="flipPageBtn" onclick="goToRecentPosts()">Newer Posts</button> <button id="rightMainBtn" class="rightMainBtn flipPageBtn" onclick="goToPreviousPosts()">Older Posts</button>    -->
+
+
+
+</div>
+
+</div>
+
+  <!--<script src="scripts/utilsIndex.js"></script>-->
+ <!-- <script src="../scripts/blogInfo.js"></script>
+ <script src="../scripts/loadBlogInfo.js"></script>-->
+
+    </div>
+
+</div>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+ <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+ <script src="../scripts/blog_scripts/dead-neurons-js.js"></script>
+    <!--<script src="scripts/utilsIndex.js"></script>-->
+
+</body>
+</html>
