@@ -76,9 +76,9 @@ being searched for.-->
           <div class="contentText">
           The key question is probably how the discs themselves are actually created. An issue is that for a typical disc, there are numerous non-overlapping smaller circles contained within it. The circles vary in size and there is some spacing between each of them. Before tackling this problem and actually getting down to writing the code, I had a few ideas in mind. Some examples of these are
           <ul>
-            <li>Randomize circle positions in the large disc and out the small circles at each randomly generated position.</li>
-            <li>Add an intial circle and then add another circle tangenting to the last generated circle.</li>
-            <li>Work from a base pattern and apply slight perturbations to create the impression of a completely novel circle.</li>
+            <li>Randomize circle positions in the large disc and create small circles at each randomly generated position.</li>
+            <li>Add an initial circle and then add another circle tangenting to the last generated circle.</li>
+            <li>Work from a base pattern and apply slight perturbations to create the impression of a completely novel disc.</li>
           </ul>
           
           While initially I was sceptical of the efficiency of the first idea since there were some obvious obstacles, i.e, how do we prevent the circles to overlap if we just randomize the positions and how do we sample to prevent overlap, it turned out to work surprisingly well and I did not investigate the other ideas further.

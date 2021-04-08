@@ -23,7 +23,7 @@ html, body {
 
 
 #main {
-    width: min(600px, 80%);
+    width: min(800px, 90%);
     margin: auto;
     overflow: auto;
     /*color: #6A7180;*/
@@ -116,11 +116,14 @@ html, body {
 }
 
 .contentText {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.0em;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /*font-family: Arial, Helvetica, sans-serif;*/
+    /*font-size: 1.0em;*/
+    font-size: 1.2em;/*1.2em;*/
+    line-height: 1.6em;
     /*color: #6A7180;*/
     
-    line-height: 1.5em;
+    /*line-height: 1.5em;*/
     color: var(--readingTextColor);
     
 }
