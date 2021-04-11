@@ -41,7 +41,7 @@ being searched for.-->
                 During my teaching and collaboration experiences,
                  it has become clear to me that there can often be
                   misunderstandings when one can use the
-                   student \(t\)-distribution and how it appears.
+                   student \(t\)-distribution and how the distribution appears.
                     In Data Science, I have seen these misunderstandings
                      lead people to exclaim significant results when in
                       reality it is likely they were non-significant. I thus wanted
@@ -49,7 +49,7 @@ being searched for.-->
                         appears and also a lengthier derivation of it
                          to prove the claims. This post is by
                           no means exhaustive and does not detail all the 
-                          possible ways how this distribution can appear.
+                          possible ways of how this distribution can appear.
 
             </div>
             <h2><strong>\(t\)-distribution</strong></h2>
@@ -57,7 +57,7 @@ being searched for.-->
                 One way in which I have seen the \(t\)-distribution misused
                  is when performing a hypothesis test to test the mean
                   (such as the one-sample \(t\)-test). Assuming we have 
-                  some observed data \(x\). Then we can form the observed
+                  some observed data \(x\), then we can form the observed
                    mean \(\bar{x}\) and the observed standard deviation \(s\)
                     and subsequently form the ratio
                 $$T = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}$$
@@ -65,7 +65,8 @@ being searched for.-->
                 The issue here is that we can only perform this 
                 when our sample \(x\) is assumed to come from a normal
                  distribution (unless we are working with a large 
-                 sample in which case we can use the central limit theorem).
+                 sample in which case we can use the central limit theorem since in that case 
+                 \(\bar{x}\) will be approximately normal distributed).
                   If our data does not come from a normal distribution then 
                   we can obtain incorrect conclusions if we perform this hypothesis test.
                 <br>
@@ -75,9 +76,9 @@ being searched for.-->
                  superior to another, then in most cases we cannot trust
                   the significance values that we obtain since for most 
                   algorithms the result will not follow a normal distribution
-                   (unless we have a large amount of observations/results 
+                   (unless, as before, we have a large amount of observations/results 
                    from the algorithms in which case the central limit theorem 
-                   can be applied as before). This can yield inconclusive 
+                   can be applied). This can yield inconclusive 
                    results or cause you to exclaim significance when in reality
                     one cannot know for sure.
                 <br>
@@ -90,7 +91,8 @@ being searched for.-->
                  Another way is to use bootstrapping to produce empirical confidence intervals
                   to get an idea of the performance of an algorithm. Hypothesis 
                   testing and model selection in machine learning can be difficult
-                   and there is usually no perfect way of obtaining conclusions. 
+                   and there is usually no perfect way of obtaining conclusions, but we can always 
+                   strive to obtain as accurate inference as possible.
                            <br>
                            
             </div>
@@ -110,7 +112,7 @@ being searched for.-->
                 which will be \(t\)-distributed with \(n-1\) degrees of freedom.
                  First off we will define what the \(t\)-distribution actually is,
                   and then show why the ratio above is \(t\)-distributed.
-                   This will show when we can actually use the \(t\)-distribution
+                   This will demonstrate when we can actually use the \(t\)-distribution
                     to prove significance of our hypothesis. The \(t\)-distribution
                      is given as
                 $$g(t;n) = \frac{\Gamma(\frac{n+1}{2})}{\sqrt{n \pi}\Gamma(n/2)}\bigg(1 + \frac{t^2}{n}\bigg)^{-\frac{n+1}{2}}, ~~t\in(-\infty,\infty).$$
