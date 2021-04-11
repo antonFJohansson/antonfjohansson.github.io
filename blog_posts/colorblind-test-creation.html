@@ -45,6 +45,27 @@ being searched for.-->
           <br>
           <img src="../img/blogImgs/ishiharaDiscs/ishihara_disc_overview.png" alt="Ishihara overview" class="responsiveImg">
           <br>
+          You can try a simple version of the program in the boxes below. Draw something in the dotted circle and when you are happy press the "Create disc" button. 
+          Pressing the "Clear input" button clears your previous drawing into the dotted circle and "Download" downloads the Ishihara Disc.
+          <br>
+
+          <div style="margin:auto; text-align: center;">
+          <button onclick="myInputShape.getColorInd()">Create disc</button><button onclick="myInputShape.clearInput()">Clear input</button><a id="download" download="ishiharaDisc.png"><button type="button" onClick="downloadIshiDisc()">Download</button></a>
+        </div>
+
+          <div style="margin: auto; width: 100%; display: flex; flex-wrap: wrap; text-align: center; justify-content: center; align-items:center">
+            <div id="drawDiv" style="margin-right: 1px; display: inline-block; width: 300px;">
+                <canvas id="drawCanvas" style="border: 1px dotted black; width: 100%; height: 300px;"></canvas>   
+            </div>
+    
+            <div id="ishiDiv" style="display: inline-block; width: 300px;">
+                <canvas id="ishiCanvas" style="border: 1px dotted black; width: 100%; height: 300px;"></canvas>   
+            </div>
+        </div>
+        
+                
+        
+
           If this project seems interesting then continue reading to get an overview of how the program works and thoughts that occurred to me while coding it all.
            </div>
           <h2><strong>Introduction</strong></h2>
@@ -157,7 +178,7 @@ being searched for.-->
 
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
+ <script src="../scripts/blog_scripts/drawIshihara.js"></script>
     <!--<script src="scripts/utilsIndex.js"></script>-->
 
 </body>
