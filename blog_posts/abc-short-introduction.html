@@ -63,11 +63,12 @@ being searched for.-->
       In the toy example, we will have observed 5 coin flips which gave the sequence
       \([T,T,T,T,H]\) (four tails followed by one head). We are now interested in obtaining the posterior distribution for \(p\),
         the probability of obtaining heads in a coin flip. The coin flip is easily modelled
-       by using the Binomial distribution and we put a uniform prior on \(p\). We sample \(p\)
+       by using the Binomial distribution and we put a uniform prior on \(p\). Thus in
+       order to obtain a sample from the posterior distribution we sample \(p\)
         from the prior and simulate 5 coin flips, if they are equal to the sequence
         \([T,T,T,T,H]\) then we keep \(p\) as a sample from the posterior distribution. 
       This model is easy to investigate since we can also calculate that the true 
-      posterior distribution is given as Beta(2,5), and thus we can compare our 
+      posterior distribution is given as Beta(2,5) and thus we can compare our 
       results with the ground truth.
       The histogram obtained from the sampling scheme and the density of the true 
       posterior can be seen below.
@@ -80,8 +81,8 @@ being searched for.-->
         and prior to obtain samples from the posterior distribution,
          all we needed was a way to obtain samples from the two distributions.
           This is advantageous when we are working with complex simulation
-           based models, where it can be easy to simulate observations from 
-           the model, but it might be difficult to write out a mathematical
+           based models where it can be easy to simulate observations from 
+           the model but it might be difficult to write out a mathematical
             expression for the likelihood and prior.
       
       
@@ -106,14 +107,14 @@ being searched for.-->
                of the observed data. Therefore we can often instead of working with the
                 original observed data \(\tilde{y}\), work with some form of reduced form,
                  e.g, summary statistics of \(\tilde{y}\) (and thus see if the distance 
-                 between summary statistics \(d(S(\tilde{y}), S(y))\) is sufficiently small). 
+                 between the summary statistics \(d(S(\tilde{y}), S(y))\) is sufficiently small). 
                  Lastly, as with all sampling methods it is more efficient to use some 
                  form of MCMC method to exploit knowledge about previously accepted samples
                   to speed up the sampling scheme compared to using a naive rejection 
-                  sampling approach. For this post, I will use ABC sampling in 
+                  sampling approach. For this post, I will use Approximate Bayesian Computation (ABC) sampling in 
                   the Metropolis-Hastings algorithm, but the method is not 
                   restricted to this MCMC algorithm. In this ABC-MCMC scheme we
-                   sample as follows
+                  can obtain samples from complex distributions as follows
 
                    <ol>
                        <li>(Initialization) Sample \(\theta \sim p(\theta)\) and \(y \sim p(y|\theta)\) until \(d(S(\tilde{y}),S(y)) \leq \epsilon\). Save the corresponding \(\theta\).</li>
@@ -126,7 +127,8 @@ being searched for.-->
 
 
 The point of displaying the algorithm is to see that is it
-not much more complex than a standard MCMC-routine.
+not much more complex than a standard MCMC-routine and that implementing this can be quite 
+straightforward.
 
 <h2><strong>What has ABC been used for?</strong></h2>
 From the above description it might be difficult to
@@ -147,7 +149,7 @@ inference to be made in fields which previously posed
          <a href="https://arxiv.org/abs/0912.4729">finance</a>,
          <a href="https://arxiv.org/abs/1007.4603">communications engineering</a>. There 
          are many more fields which have employed ABC-methods which I have not listed. 
-           Any field where one  works with complex models that can be simulated from but 
+           Any field where one works with complex models that can be simulated from but 
             which might be difficult to infer properties about might 
             be a field where ABC-methods can be useful. Hopefully this post either inspired you to 
             take a closer look at these methods or that you gained a new perspective on Bayes rule.

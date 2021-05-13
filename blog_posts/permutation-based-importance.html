@@ -51,7 +51,7 @@ being searched for.-->
           some of these methods are used in scenarios which can yield wrong conclusions.
            I therefore wanted to touch upon some of these issues
             and investigate a possible solution.
-         This post was inspired by the this
+         This post was inspired by this
           
          <a href="https://arxiv.org/abs/1905.03151">article</a>. I will refer to this article throughout
          this post simply as <i>the article</i>. For the relevant code, see <a href="https://github.com/antonFJohansson/please_do_not_permute_features">github</a>.
@@ -148,7 +148,7 @@ being searched for.-->
                   </div>
                  <h1><strong>Feature importance with variance</strong></h1>
                  <div class="contentText">
-                 For a Gaussian process model we have that the function values is distributed as
+                 For a Gaussian process model we have that the function values are distributed as
                  <span class="mathEq">
                  $$f \sim \mathcal{N}(m, K)$$
                 </span>
@@ -162,7 +162,7 @@ being searched for.-->
              $$\begin{aligned}\textrm{Var}\bigg( \frac{1}{N}\sum_{i=1}^N f(x_i^{x,j})\bigg) = &\frac{1}{N^2}\bigg[\sum_{i=1}^N\textrm{Var}\big(f(x_i^{x,j})\big)\\
              & +2\sum_{i\neq k}\textrm{cov}\big(f(x_i^{x,j}),f(x_k^{x,j})\big)\bigg]\end{aligned}$$
           </span>
-             These values we can easily calculate given that we have access 
+             We can easily calculate these values given that we have access 
          to \(K\) and thus get an estimate of the variance in the Partial
           Dependency plot. A similar calculation yields the variance for 
           the ICE-plot. Lastly, for the Variable Importance measure it is

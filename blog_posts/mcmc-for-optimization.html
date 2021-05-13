@@ -43,7 +43,7 @@ being searched for.-->
            which caused me to view the method in a different light which I wanted to share.
             The idea is that sampling methods such as MCMC can be used to tackle difficult 
             optimization problems. I will demonstrate this with two applications, 
-            one in cryptography and one in obtain solutions to the travelling salesman problem.
+            one in cryptography and one in obtaining solutions to the travelling salesman problem.
             The associated code for this blog post can be found on 
             <a href="https://github.com/antonFJohansson/MCMC_optimization/tree/master">github</a>.
          </div>
@@ -56,7 +56,7 @@ being searched for.-->
           will rely mostly on intuition.  
           <br>
           <br>
-          MCMC is collection of methods which was first designed to obtain samples from complex distributions.
+          MCMC is collection of methods which was first designed in order to obtain samples from complex distributions.
           In this post we will focus on the MCMC method known as Metropolis-Hastings (MH).
           While methods such as rejection sampling can work well when we have a clear idea
           of the shape of the distribution of interest, it is not clear on how to extend
@@ -129,7 +129,7 @@ for optimization. We could in fact have solved the optimization problem above in
 fewer iterations by simply using some form of gradient based optimization technique.
  But the true strength of the method does not lie in finding the maximum of continuous
   distributions but instead in finding the maximum of discrete distributions where 
-  other methods might not work. Restricting ourselves to finding the maximum of discrete distributions
+  other methods might not work. But restricting ourselves to finding the maximum of discrete distributions
   might seem like a great limitation for the method.
    Most discrete optimization problems do not aim to find the maximum of a discrete
     distribution but instead to maximize a non-negative score/value function over a 

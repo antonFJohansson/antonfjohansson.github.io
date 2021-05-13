@@ -100,16 +100,17 @@ that they are active but during some gradient update they turn dead,
                 many, then the probability \(1/2^{n+1}\) might be 
                 non-negligible and one might want to take some extra care
                  in ensuring that no neuron is dead at initialization.
-                  Otherwise one might end up with a smaller complexity
-                   of the network than one intended, and thus might not
+                  Otherwise one might end up with a network of smaller complexity
+                   than one intended, and thus might not
                     be able to learn the patterns that one is interested in.
 
-              To put the probability into perspective, I made a
+              To put the probability into perspective I made a
                small tool below where you can easily visualize how likely 
                it is that a neuron will be dead for different layer sizes.
-               You can add or remove layers from the network. To initialize the parameters of 
+               You can add or remove layers from the network to see how this changes with network architecture.
+                To initialize the parameters of 
                the network, press the "Initialize parameters" button. The biases are visualized as 
-               a separate node above the neurons (have to initialize the parameters to see them). 
+               a separate node above the neurons (you have to initialize the parameters to see them). 
                Dashed lines correspond to parameters that are non-positive and solid lines to parameters that are positive.
                A fully filled black circle indicates that the neuron is not dead while an empty circle with a black border indicates that the neuron is dead.
                By playing around a bit with the tool and pressing "Initialize parameters" multiple times, we can get a feel for when these dead neurons are likely to occur.

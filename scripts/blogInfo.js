@@ -36,7 +36,7 @@ var allBlogInfo = `
 [Tags:Programming, Data Science, Statistics, Bayesian, Clustering, NLP, Natural Language Processing, Youtube, Clustering Playlists on Youtube]
 %
 [Title:A Commonly Misused Distribution in Data Science]
-[Description:A short description and derivation of the student-t distributions which can be easy to misuse in Data Science.]
+[Description:A short description and derivation of the student-t distribution which can be easy to misuse in Data Science.]
 [Date:2019-08-02]
 [HTMLPage:statistics-distribution-chi-t]
 [Tags:Data Science, Statistics, Distributions, student, chi, Mathematics, Commonly Misused Distributions in Data Science]

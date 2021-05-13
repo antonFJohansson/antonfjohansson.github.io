@@ -74,14 +74,14 @@ being searched for.-->
           Solving this and obtaining \(v = (v_x,v_y)\) will yield a particle trajectory that never 
           intersects the inner circle as long as the particle is initialized along the vector intersecting
           the circle center and the point \((\cos(\theta), \sin(\theta))\), see the dotted line in the figure below.
-          <img src="../img/blogImgs/circle-art/circleArtTangentNew.png" alt="Ishihara overview" class="responsiveImg">
+          <img src="../img/blogImgs/circle-art/circleArtTangentNew.png" alt="CircleArt Overview" class="responsiveImg">
           In this project I also added some small random perturbations to the initialization of the point to get some slight 
           variation in the trajectories, while still ensuring that they do not intersect the inner circle.
           <br>
           Similarly, we can obtain the reflection angle \(\theta\) by calculating the inner product between the velocity vector 
           and the normal vector of the circle (the vector pointing towards the center of the circle). The new velocity vector 
           is then obtained by a rotation of \(2\theta\). This can be seen below.
-          <img src="../img/blogImgs/circle-art/circleArtReflection.png" alt="Ishihara overview" class="responsiveImg">
+          <img src="../img/blogImgs/circle-art/circleArtReflection.png" alt="Rotation overview" class="responsiveImg">
 
           While there are some other aspects to take into consideration, these two are the main ones. If you are interested in the code 
           then it can be found on <a href="https://github.com/antonFJohansson/simpleGeometricCircleArt">github</a>.
