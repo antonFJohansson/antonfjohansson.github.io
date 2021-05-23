@@ -1,6 +1,6 @@
 var allBlogInfo = `
-[Title:Interpreting confidence intervals]
-[Description:A short and partially interactive explanation of how to correctly interpret confidence intervals.]
+[Title:Interpreting Confidence Intervals]
+[Description:A short and interactive explanation of how to correctly interpret confidence intervals.]
 [Date:2021-05-08]
 [HTMLPage:confidence-interval]
 [Tags:Statistics, Data Science, Mathematics, interactive, exercise, Interpreting confidence intervals]
