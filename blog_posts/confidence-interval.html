@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Anton Johansson</title>
+    <link rel="stylesheet" href="../styles/styleIndexColumn.css">
+    <link rel="stylesheet" href="../styles/blogstyleReform.css">
+</head>
+<body>
+
+<!--Slight issue when going from one of the boxes to the blog posts, and then clearing the field
+when backing later then the field is still cleared but the items that are shown are as if the string was still
+being searched for.-->
+
+<!--<div id="aa"></div>-->
+
+<div id="d1">
+    <div id="headerGrid">
+        
+        <p class="zeroSpacep">Hello, I'm</p>
+        <div id="headerGrid1">
+        <span id="titleName" onclick="location.href='../index.html';">Anton</span>
+        </div>
+
+        <div id="headerGrid2">
+            <div class="buttonWrapper"><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow mainFontColor" onclick="location.href='blogHome.html';">Blog</button><button id="roundBtn" class="infoBtns mainSiteColor buttonShadow" onclick="location.href='../About/about.html';">About</button><button id="roundBtnGit" class="infoBtns buttonShadow" onclick="location.href='https://github.com/antonFJohansson';"></button></div>
+        </div>
+    </div>
+</div>
+
+<div id="d2">
+
+    <div id="rightGrid">
+            
+        <div id="main" class="mainItems">
+          <div id="contentTitle">Interpreting confidence intervals</div>
+          
+          <div class="contentText">
+       
+In statistics textbooks it is common to encounter exercises as
+<br>
+<br>
+<div style="border-radius: 20px; border-color: rgb(70, 140, 95); border: 5px solid;
+padding: 1em;">
+Assume we have a scale that gives the true weight of an object + 
+an error that is normally distributed with 0 mean and variance 0.1. 
+Suppose we weigh the same object 10 times and get the measurements as
+<br>
+<br>
+<div style="text-align: center;">
+    x = [4.53, 4.8, 5.14, 5.02, 4.99, 
+    4.82, 5.17, 4.69, 5.70, 4.87]
+</div>
+
+<ul>
+<li>a) Calculate a 95% confidence interval for the true weight of the object.</li>
+<li>b) Can you say that there is a 95% probability that the true weight lies in the interval from a)?</li>
+</ul>
+</div>
+<br>
+While exercise a) can be solved quickly as
+<br>
+<br>
+<div style="text-align: center;">
+<span>mean(x) \(\pm\) z<sub>0.025</sub>\(\sqrt{\sigma^2/n}\) = (4.79, 5.18)</span>
+</div>
+<br>
+ it seems many students can have some difficulty with question b.
+It seems the most common misinterpretation for b) is 
+"Yes. There is a 95% probability that the true weight lies in this interval". 
+
+Of course teachers try to say that this is incorrect
+ and that one should not interpret confidence intervals like that,
+  but I have often found that the teachers do not give a proper 
+  explanation (or at least not an explanation suited for the students' level)
+   of why it is wrong. This leaves the students wondering why their 
+   interpretation was incorrect. I thus wanted to try and give an
+    intuitive demonstration of why it is an incorrect interpretation 
+    and also how we should interpret it.
+
+
+    <h2><strong>Reformulation of the problem</strong></h2>
+
+
+Imagine that there is a machine that will give you a scratch card
+ with a 10,000$ win with 95% probability (a most generous machine) 
+ each time you press a button and with 5% probability you get nothing.
+  So we go to the machine, we press the button, get a scratch card and scratch
+   it to see if we get 10,000$ or not. Now imagine that when we scratch away the
+    covering we find that we did not win. If we at this point stand up and exclaim
+     "There is a 95% probability that I will win 10,000$ with <b>this</b> scratch card!" 
+     it might seem a bit strange. If the strangeness is not clear to you, 
+     let us delve deeper into why this can seem strange. 
+First of all, we know that the scratch card we bought does not contain any prize.
+ We know this because probably on the scratch card it says something like "You lost".
+  So there is no way at all for us to win with <b>this</b> card. If there still was a 95% probability 
+  of winning with <b>this</b> scratch card that means that somehow our card could magically switch the text
+   "You lost" to "You won".
+   Of course this is not possible.
+<br>
+<br>
+When we speak of probabilities then there needs to be some random element involved.
+ In our case, the machine contains the random element since a different card might
+  come out each time we press the button. But when we are speaking of a single card
+   that we have obtained from the machine then there is no longer any probability
+    associated with <b>this specific</b> card. I have tried to emphasize this 
+    above by making the text bold when we refer to the specific card that we obtained.
+     This card is either a winning or a losing card. We can only formulate probabilities
+      if we include the machine (either explicitly or implicitly) in our question.
+       We can only say that we have a 95% chance of obtaining a winning scratch card when we
+        press the button on the machine.
+<br>
+<br>
+Now if we return to confidence intervals then we are in a very similar 
+situation as above with the scratch cards. We cannot say that <b>this specific</b> confidence interval
+ (in our case above, the interval (4.79, 5.18))
+ contains the true weight with 95% probability. 
+ The interval either contains the true weight of the object or not, it cannot magically
+  change once it has been determined. The machine in this case is the repeated measurements
+   of the object, this is where the randomness lies. Thus we can only say that we have a 95% chance 
+   of creating a 95% confidence interval that contains the true weight when we weigh the
+    object. Thus we must repeat the measurements, create new confidence intervals and only by doing
+     this can we start to think in terms of probabilities. I think that an issue with teaching this
+      is that for most exercises then one does not get to collect the data oneself/weight the object.
+       One is simply handed some observed data points and asked to calculate the confidence interval.
+        Therefore it can be easy to misunderstand and think that the probability is associated 
+        with the interval you calculated, you do not get to see any other confidence intervals after
+         all. I think this disconnection might contribute to some of the misunderstandings.
+<br>
+<br>
+Thus I wanted to modify the exercise at the top to try and illustrate
+ how it could look like if we were also allowed to collect the data/weigh the object ourselves.
+Now luckily for you, I have set up a scale in my apartment 
+with the exact properties of those given in exercise at the beginning which 
+you can remote control with a button below. The object in my apartment weighs 4kg 
+and each time you press the button then a small electric shock will be given to my assistant
+ (do not worry, he finds it rather delightful) and he will subsequently weigh the object 10 times 
+ and provide the values to you, all to help facilitate your learning.
+<br>
+<br>
+You can find the modified exercise with the button below. 
+Each time you press the button ("Perform new weight measurements") you can see that the answer to a) 
+changes since each new experiment gives rise to different values.
+ Since the true weight of the object is 4kg we expect that in 95% of the times
+  we press the button our confidence interval will contain the value 4. The confidence interval will be 
+  marked as green if it contains the true weight of 4kg and otherwise it will be red. You can also modify
+   the confidence level by drawing on the slider below. If you change the confidence level
+    then you will either make it more likely that your interval contains 4 or more unlikely.
+     So let's try it out!
+     <br>
+     <br>
+     <div style="border-radius: 20px; border-color: rgb(70, 140, 95); border: 5px solid;
+     padding: 1em;">
+     Assume we have a scale that gives the true weight of an object + 
+     an error that is normally distributed with 0 mean and variance 0.1. 
+     Suppose we weigh the same object 10 times and get the measurements as
+     <br>
+     <br>
+     <div style="text-align: center;">
+         x = [<span id="dataNew">4.53, 4.8, 5.14, 5.02, 4.99, 
+         4.82, 5.17, 4.69, 5.70, 4.87</span>]
+     </div>
+     
+     <ul>
+     <li>a) Calculate a <span class="sliderConfLevel">95%</span> confidence interval for the weight of the object.</li>
+     <li>Solution a): mean(x) \( \pm \) z<sub id="subText">0.025</sub> \( \cdot \)0.1 = <span class="confNew"> (4.79, 5.18)</span> </li>
+     </ul>
+     </div>
+     <div style="text-align: center;">
+     Confidence level: <input style="width: 60%;" id="confSlider" type="range" min="1" max="99" value="95" oninput="calcConfInt()">
+    </div>
+    <div style="text-align: center;">
+     <button onclick="changeDataWeights()">Perform new weight measurements</button>
+    </div>
+     <br>
+Now we can connect it back to the scratch card. 
+Each time you press the button "Perform new weight measurements" you have a certain probability
+of ending up with measurements that give a confidence interval that contains the 
+true weight of the object that we are measuring (since the slider is currently at <span class="sliderConfLevel">95%</span>, you
+have <span class="sliderConfLevel">95%</span> chance). This is exactly like when we had a certain chance of obtaining
+a winning scratch card when pressing the button of the scratch card machine. 
+But if you stop pressing the button and only look at the single fixed interval
+ that you obtained (in your case <span class="confNew"> (4.79, 5.18)</span>), then we cannot speak of any probability that 
+ <b>this specific</b> interval contains the true weight since it is completely fixed. 
+ Either the interval contains the value 4 <span id="corrText">(for your interval this is the case)</span> or it does not.
+ Thus when dealing with confidence intervals we cannot forget about the process that generated our data.
+ This is a crucial aspect in order to obtain a correct interpretation.
+
+<h2><strong>End notes</strong></h2>
+
+Hopefully this exercise made it a bit more clear to you how to interpret confidence intervals.
+ If it is still not clear then I suggest that you either read it again or find some other
+  source that also tries to explain how to correctly interpret the confidence interval.
+   I have found that the best way to learn something is to read about it over and over 
+   again and also check for different explanations. We all have different ways of processing
+    information and seeing how others think can help us strengthen our own understanding.
+
+          
+          </div>
+      
+</div>
+      
+          <!--<button id="leftMainBtn" class="flipPageBtn" onclick="goToRecentPosts()">Newer Posts</button> <button id="rightMainBtn" class="rightMainBtn flipPageBtn" onclick="goToPreviousPosts()">Older Posts</button>    -->
+
+
+
+</div>
+
+</div>
+
+ 
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+ <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+ <script src="../scripts/blog_scripts/confInterval.js"></script>
+    <!--<script src="scripts/utilsIndex.js"></script>-->
+
+</body>
+</html>

@@ -1,4 +1,10 @@
 var allBlogInfo = `
+[Title:Interpreting confidence intervals]
+[Description:A short and partially interactive explanation of how to correctly interpret confidence intervals.]
+[Date:2021-05-08]
+[HTMLPage:confidence-interval]
+[Tags:Statistics, Data Science, Mathematics, interactive, exercise, Interpreting confidence intervals]
+%
 [Title:Lookout: A Method to Interpret Outliers]
 [Description:Implementing the LookOut algorithm for interpreting outliers in terms of two-dimensional plots. A minor investigation of the method is then carried out on three data sets.]
 [Date:2020-08-13]
