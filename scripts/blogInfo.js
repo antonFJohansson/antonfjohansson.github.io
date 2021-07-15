@@ -1,4 +1,10 @@
 var allBlogInfo = `
+[Title:Monotone Neural Networks]
+[Description:A short look at how one can add monotonicity to a neural network.]
+[Date:2021-07-01]
+[HTMLPage:monotone-neural-networks]
+[Tags:Statistics, Data Science, Mathematics, Monotone Neural Networks]
+%
 [Title:Interpreting Confidence Intervals]
 [Description:A short and interactive explanation of how to correctly interpret confidence intervals.]
 [Date:2021-05-08]
