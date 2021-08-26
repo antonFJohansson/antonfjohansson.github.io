@@ -1,0 +1,53 @@
+A decision tree is a machine learning technique which is structured in a similar way to how we reach conclusions in our daily lives.
+For example, when a patient visits a doctor's office with a stomach pain the doctor will most likely ask questions to understand the cause
+of the pain and if it is serious or not.
+The first question 
+
+A decision tree is a machine learning technique which yields answers through yes-no questions.
+For example, when a 
+
+
+Kanske spam mail som exempel? Eller hus och om det är lyxigt eller ej
+Tänkte att det kanske blev lite problem att man måste skriva att vi encoder ja/nej till binära variabler men det måste vi ju kanske alltid göra förutom i extremt simpla exempel?
+
+Annars är man fast vid vikt, längd, ålder, bmi, vilopuls, etc
+
+Spam mail känns lite roligare då man kan se många exempel också, men jag måste skriva dem själv dock...
+och det kanske inte är superlätt att illustrera det med spam mail alltid? Fast det kanske det ej måste vara...
+ 
+
+file:///C:/Users/johaant/Downloads/Decision_Trees.pdf
+
+
+-----------------
+Så ett exempel på decision träd med spam
+	Kan klicka för att generera nya spam mail och vi ser hur de går ned längs trädet?
+Sen så hur man skapar decisionträd, kanske börjar med att de ska klassificera så bra som möjligt
+	Kan se det i tabellform och i diagramform
+	Hade kanske varit kul att få skapa sitt eget träd men vet inte om det blir så bra
+Men under sen så kan man säga att det kanske inte alltid är bra och visa andra sätt att göra det på?
+	Och här kan vi ha en ruta med flikar på toppen där man kan se de olika measures
+	Kanske inte ska vara flikar vid toppen, kanske bara ska ha det för två sätt att se på samma sak
+	Så då kan jag även ha easy och difficult explanation i toppen
+	Men sen allt annat får jag ha knappar inuti rutan?
+Efter det så kanske pruning?
+Och sen negativa saker med trädet?
+	Som att inte så tolkningsbara om de är långa, och även kanske känsliga till input data
+	Och att de ej kan modellera korrelarade variabler så lätt
+Och sen bara nämna att det ej är en så stark modell i allmänhet, att det behövs mer komplicerade metoder oftast
+Sen ha notes i slutet med att det fungerar för regression också, och då kanske ha huspris exempel?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

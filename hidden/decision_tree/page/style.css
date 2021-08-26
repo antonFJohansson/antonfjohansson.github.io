@@ -1,0 +1,266 @@
+body {
+    margin: 0px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    color: #313131;
+    line-height: 1.8;
+    /*font-size: 18px;*/
+}
+
+.content-text {
+    max-width: 800px;
+    /*height: 430px;*/
+    margin: auto;
+    /*line-height: 1em;*/
+}
+
+.content-text p {
+    line-height: 1.5em;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 920px;
+    
+    margin: auto;
+    
+    background-color: #F7F7F7;
+    margin-bottom: 40px;
+    margin-top: 40px;
+
+    
+    border-radius: 15px 15px 15px 15px;
+
+    border: 1px solid #c9c9c9;
+  }
+
+
+  /*Maybe these two can be made into a box class*/
+  .text-box {
+    
+      width: 450px;
+      height: 550px;
+      margin: auto;
+      /*border-right: 1px solid black;*/
+  }
+
+.canvas-box {
+    width: 450px;
+    height: 550px;
+    margin: auto;
+  }
+
+.math-overview-box {
+  width: 500px;
+  height: 600px;
+  margin: auto;
+}
+
+.math-formula-box {
+  width: 400px;
+  height: 600px;
+  margin: auto;
+
+  font-size: 25px;
+  display: flex;
+  /* flex-direction: column;*/
+  align-items: center;
+  
+}
+
+.formula-part {
+
+  display: inline;
+  cursor: help;
+
+}
+
+.formula-part:hover {
+  
+  animation: formula-color-change 0.2s forwards;  
+  
+}
+
+@keyframes formula-color-change {
+  100% { color: red; }
+}
+
+.math-overview-content {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+}
+
+
+#basicsInfo {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+
+#basicsInfo button {    
+    margin: 5px;
+}
+
+#basicsInfo div {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#basicsCanvas {
+    padding-left: 100px;
+    padding-right: 100px;
+    height: 60px;
+}
+
+
+
+
+
+.flex-container-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 920px;
+  
+  margin: auto;
+  /*margin-bottom: 40px;*/
+  margin-top: 40px;
+  background-color: #F7F7F7;
+  border-radius: 15px 15px 15px 15px;
+
+  border: 1px solid #c9c9c9;
+}
+
+
+
+.flex-container-buttons .tab {
+  overflow: hidden;
+  background-color: #F7F7F7;
+  max-width: 920px;
+  width: 100%;
+  border-radius: 15px 15px 0px 0px;
+  border-bottom: 1px solid black;
+}
+
+
+/* Style the buttons inside the tab */
+.tab button {
+/*  background-color: inherit;*/
+  
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+.tablinks {
+  background-color: #F7F7F7;
+}
+
+.tablinksactive {
+  background-color: #ddd;
+}
+
+/* Change background color of buttons on hover */
+#overviewButton:hover {
+  background-color: #ddd;
+}
+
+#entropyButton:hover {
+  background-color: #ddd;
+}
+
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+
+.quoteWrap {
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px;
+  padding-top: 10px;
+
+}
+
+.quoteText {
+  border-left: 2px solid black;
+  padding-left: 10px;
+}
+
+.quoteAuthor {
+  float: right;
+}
+
+
+
+
+
+.popup {
+  position: relative;
+  display: inline;
+  border-bottom: 2px solid red;
+  
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 360px;
+  background-color: #555;
+  color: #fff;
+  
+  /*text-align: left;*/
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -180px;
+
+  padding: 15px;
+
+  font-size: 15px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 0.2s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+
+

@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!--
+    <div class="content-text">
+        <div style="text-align: center; margin-bottom: 40px; margin-top: 20px;">
+        
+        
+            <span style="font-size: 60px;">Decision Trees</span>
+        </div>
+        <div style="text-align: center;">
+        What kind of explanations do you prefer?
+        Concise|More detailed
+
+        What is your level of familiarity with Machine Learning?<br>
+        <button>Not so familiar</button><button>Quite familiar</button><button>Familiar</button>
+        </div>
+
+       <h1>Basic premise</h1>
+        
+
+    A decision tree is a <div class="popup">
+        <span style="cursor: help;" onclick="togglePopup(0)">directed acyclic graph</span>
+        <span class="popuptext" id="myPopup0">A directed acyclic graph is essentially a 
+            flowchart where we cannot go to any state that we have visited previously.
+            For decision trees this means that we do not ask any question twice in order to 
+            reach our final decision.
+        </span>
+    </div> 
+    
+
+    where we ask more and more refined questions in order to obtain a decision. Each question rejects 
+    a set of possible outcomes, ultimately leaving us with a single possible outcome which will be 
+    our final decision. An example of how a decision tree can be used for
+     automated decision making can be seen below where we have a simple program that can allow hypothetical
+     medical staff to decide between monitoring patients that show up with a chest pain or letting them go home.
+     Currently the patient <span class="personName"></span> is to receive a decision. Press the "Obtain decision"-button
+     and follow the colored path to see how a decision tree can be used to reach a decision. 
+     (<strong>Note, do not use this decision tree to diagnose anyone you know personally. That would just be stupid.
+     </strong>)
+    
+    </div>
+    -->
+    <!--
+        <div class="flex-container">
+            <div class="text-box">
+                <div id="basicsInfo">
+                    <h1 style="text-align: center;"><span class="personName"></span></h1>
+                    <hr>
+                    <h2>Information:</h2>
+                    Age: <span id="personAge"></span>
+                    <br>
+                    Sex: <span id="personSex"></span>
+                    <br>
+                    Blood pressure: <span id="personBP"></span>
+                    <br>
+                    Cholestrol level: <span id="personChol"></span>
+                    <br>
+                    Abnormal blood sugar levels: <span id="personBS"></span>
+                    <br>
+                    Just exercised: <span id="personEx"></span>
+                    <br>
+                    Family history: <span id="personHist"></span>
+                    <h2>Decision: <span id="personDec"></span></h2>
+                    <div>
+                    <button onclick="basicsDecTree.generateNewPatient()">Admit new patient</button><button onclick="basicsDecTree.drawPath()">Obtain decision</button>
+                    </div>
+                </div>
+                
+            </div>
+
+
+
+            <div id="decisionTreeBasics" class="canvas-box">
+                
+                <div id="basicsCanvas"><h1 style="text-align: center;">Decision Tree</h1>
+                    <hr>
+                </div>
+                <div id="canvas-container" style="width: 430px; height: 320px; margin-top: 55px; position: relative;">
+                    <canvas id="decTreeFig1"></canvas>   
+                 
+                    <span 
+            style="position: absolute; 
+            top: 15px;
+            right: 140px;">Just exercised?</span>
+            <span 
+            style="position: absolute; 
+            top: 55px;
+            right: 300px;">Yes</span>
+            <span 
+            style="position: absolute; 
+            top: 55px;
+            right: 190px;">No</span>
+            <span 
+            style="position: absolute; 
+            top: 90px;
+            right: 265px;">Age > 50</span>
+            <span 
+            style="position: absolute; 
+            top: 90px;
+            right: 0px;">Blood pressure > 140</span>
+            <span 
+            style="position: absolute; 
+            top: 160px;
+            right: -10px;">Family history?</span>
+            <span 
+            style="position: absolute; 
+            top: 115px;
+            right: 200px;">Yes</span>
+            <span 
+            style="position: absolute; 
+            top: 115px;
+            right: 130px;">No</span>
+            <span 
+            style="position: absolute; 
+            top: 115px;
+            right: 370px;">Yes</span>
+            <span 
+            style="position: absolute; 
+            top: 115px;
+            right: 290px;">No</span>
+            <span 
+            style="position: absolute; 
+            top: 195px;
+            right: 140px;">Yes</span>
+            <span 
+            style="position: absolute; 
+            top: 195px;
+            right: 60px;">No</span>
+
+            <span id="decTree11"
+            style="position: absolute; 
+            top: 200px;
+            right: 380px;">Monitor</span>
+            <span id="decTree10" class="decTreeBasicsDecision"
+            style="position: absolute; 
+            top: 200px;
+            right: 265px;
+            ;">Let go</span>
+            <span id="decTree01"
+            style="position: absolute; 
+            top: 200px;
+            right: 200px;">Monitor</span>
+            <span id="decTree000"
+            style="position: absolute; 
+            top: 280px;
+            right: 20px;">Let go</span>
+            <span id="decTree001"
+            style="position: absolute; 
+            top: 280px;
+            right: 145px;">Monitor</span>
+                </div>
+            </div>
+        </div>
+        
+
+        
+        <div class="content-text">
+            From this illustration we can see some important aspects of a decision tree. 
+            We can see:
+            <ul>
+                <li> The hierarchical structure of a decision tree. Namely that experiencing a chest pain after exercising 
+                    might not be a reason for worry unless you are over a certain age. Similarly, if you have a high 
+                    blood pressure then it could be a good idea to take some signs of chest pain more seriously.
+                </li>
+                <li>
+                    How easy it can be to understand why a decision was made. We just have to follow the path 
+                    from the top of the tree down to the decision and see which questions and answers we encountered along that path. 
+                    Decision trees are thus often called <i>interpretable models</i>.
+                </li>
+            </ul>
+            Using flowcharts and reaching a decision based on progressively asking more and more refined questions is something 
+            which many feel is a natural approach to decision making and solving problems. This property has 
+            made decision trees an attractive method for automated decision making in certain areas.
+
+            <h1>Visualizing a decision tree</h1>
+            <div class="quoteWrap">
+                <div class="quoteText">
+                To deal with a 14-dimensional space,
+                visualize a 3-D space and say 'fourteen' to yourself very loudly. Everyone does it.
+            </div>
+            <div class="quoteAuthor">
+                -Geoffrey Hinton
+            </div>
+            </div>
+            
+            
+
+            While drawing the full tree with all of the questions and paths as above
+             is one way of visualizing a decision tree,
+            there exists some other ways of visualizing which can make it easier 
+            to understand certain details of decision trees.
+            <br>
+            <br>
+            Here we will visualize a decision tree with lines in a 2-dimensional plot,
+            where each question in the decision tree is given by a corresponding line in the plot. 
+            
+            For 2-dimensional datasets this visualization will allow us to simultanenously plot the data 
+            and the decision tree in the same plot. This will enable us to see how the data affects the decision 
+            tree and additionally allow us to have a better understanding for how a decision tree functions. 
+
+            Even though most datasets are not 2-dimensional and thus will not allow for this type of visualization, 
+            the intuition that we build here will carry over to higher dimensional spaces.
+            <br><br>
+             We can see how this visualization works below where we have a dataset with 3 <div class="popup">
+                <span style="cursor: help;" onclick="togglePopup(2)">classes.</span>
+                <span class="popuptext" id="myPopup2">
+                    In machine learning terminology we call the possible outcomes as classes/labels.
+                    For example, if we are trying to classify if an animal is a dog or a cat then we would 
+                    have 2 classes, a dog class and a cat class.
+
+                </span>
+            </div>
+            The classes are marked as orange circle <span style="color: #FDA64B;">&#9679;</span>, green square <span style="color: #D1D387;">&#9632;</span> and blue triangle <span style="color: #15607A;">&#9650;</span>.
+            The decision tree can be seen to the left and the
+            data and the lines for the decision trees can be seen in the 2-dimensional plot to the right.
+            The color of the regions show how the decision tree classifies those points in the region, we thus obtain a high 
+            accuracy when the color of the points coincide with the color of the region.
+            Try dragging the line and clicking "Flip split point" to see how the decision tree changes. You can increase the depth of
+             the decision tree by clicking "Increase depth" and decrease it with "Decrease depth".
+
+             
+             </div>
+             -->
+            <div class="flex-container">
+                <div class="canvas-box" style="height: 590px;">
+                    <div style="margin-left: 60px; margin-right: 60px;">
+                        <span style="text-align: center;"><h1>Decision Tree</h1></span>
+                        <hr>
+                        </div>
+                    
+                    <div id="canvas-container2" style="width: 430px; height: 320px; margin-top: 25px; position: relative;">
+                        <canvas id="decTreeFig2"></canvas> 
+
+                        <span 
+                        style="position: absolute; 
+                        top: 12px;
+                        right: 150px;"><span id="branch1Feat">x</span> > <span id="branch1Val">0.5</span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 40px;
+                        right: 255px;">Yes</span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 40px;
+                        right: 150px;">No</span>
+                        </span>
+                        <!--End of base trunk-->
+
+                        <span class="dec2SplitText"
+                        style="position: absolute; 
+                        top: 85px;
+                        right: 242px;"><span id="branch2Feat">x</span> > <span id="branch2Val">0.5</span>
+                        </span>
+
+                        <span class="dec2SplitText"
+                        style="position: absolute; 
+                        top: 127px;
+                        right: 330px;">Yes</span>
+                        </span>
+
+                        <span class="dec2SplitText"
+                        style="position: absolute; 
+                        top: 127px;
+                        right: 265px;">No</span>
+                        </span>
+
+                        <span class="dec2SplitText"
+                        style="position: absolute; 
+                        top: 85px;
+                        right: 60px;"><span id="branch3Feat">x</span> > <span id="branch3Val">0.2</span>
+                        </span>
+
+                        <span class="dec2SplitText"
+                        style="position: absolute; 
+                        top: 127px;
+                        right: 140px;">Yes</span>
+                        </span>
+
+                        <span class="dec2SplitText"
+                        style="position: absolute; 
+                        top: 127px;
+                        right: 80px;">No</span>
+                        </span>
+
+                        <!--End of Level 1-->
+
+                        <span class="dec3SplitText"
+                        style="position: absolute; 
+                        top: 160px;
+                        right: 292px;"><span id="branch4Feat">x</span> > <span id="branch4Val">0.5</span>
+                        </span>
+
+                        <span class="dec3SplitText"
+                        style="position: absolute; 
+                        top: 160px;
+                        right: 190px;"><span id="branch5Feat">x</span> > <span id="branch5Val">0.5</span>
+                        </span>
+
+                        <span class="dec3SplitText"
+                        style="position: absolute; 
+                        top: 160px;
+                        right: 110px;"><span id="branch6Feat">x</span> > <span id="branch6Val">0.5</span>
+                        </span>
+
+                        <span class="dec3SplitText"
+                        style="position: absolute; 
+                        top: 160px;
+                        right: 7px;"><span id="branch7Feat">x</span> > <span id="branch7Val">0.5</span>
+                        </span>
+
+                        <span class="dec3SplitText"
+                        style="position: absolute; 
+                        top: 218px;
+                        right: 42px;">No</span>
+                        </span>
+
+                        <span class="dec3SplitText"
+                        style="position: absolute; 
+                        top: 218px;
+                        right: 76px;">Yes</span>
+                        </span>
+
+                        <span class="dec3SplitText"
+                        style="position: absolute; 
+                        top: 218px;
+                        right: 147px;">No</span>
+                        </span>
+
+                        <span class="dec3SplitText"
+                        style="position: absolute; 
+                        top: 218px;
+                        right: 181px;">Yes</span>
+                        </span>
+
+                        <span class="dec3SplitText"
+                        style="position: absolute; 
+                        top: 218px;
+                        right: 227px;">No</span>
+                        </span>
+
+                        <span class="dec3SplitText"
+                        style="position: absolute; 
+                        top: 218px;
+                        right: 261px;">Yes</span>
+                        </span>
+
+                        <span class="dec3SplitText"
+                        style="position: absolute; 
+                        top: 218px;
+                        right: 332px;">No</span>
+                        </span>
+
+                        <span class="dec3SplitText"
+                        style="position: absolute; 
+                        top: 218px;
+                        right: 366px;">Yes</span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 278px;
+                        right: 381px;"><span id="Dec2111">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 278px;
+                        right: 325px;"><span id="Dec2110">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 278px;
+                        right: 278px;"><span id="Dec2101">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 278px;
+                        right: 222px;"><span id="Dec2100">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 278px;
+                        right: 197px;"><span id="Dec2011">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 278px;
+                        right: 142px;"><span id="Dec2010">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 278px;
+                        right: 92px;"><span id="Dec2001">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 278px;
+                        right: 37px;"><span id="Dec2000">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 150px;
+                        right: 300px;"><span id="Dec21">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 150px;
+                        right: 117px;"><span id="Dec20">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 240px;
+                        right: 351px;"><span id="Dec211">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 240px;
+                        right: 247px;"><span id="Dec210">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 240px;
+                        right: 168px;"><span id="Dec201">O</span></span>
+                        </span>
+
+                        <span 
+                        style="position: absolute; 
+                        top: 240px;
+                        right: 66px;"><span id="Dec200">O</span></span>
+                        </span>
+
+
+
+                        </div>
+                        <div style="display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        ">
+                            <button onclick="my2DPlot.changeTree(1)">Increase depth</button><button onclick="my2DPlot.changeTree(0)">Decrease depth</button>
+                    </div>
+                    <div style="text-align: center;">
+                        <h2>Accuracy: <span id="dec2Acc">50.00</span>%</h2>
+                    </div>
+                </div>
+                <div class="canvas-box" style="height: 590px;">
+                    <div style="margin-left: 60px; margin-right: 60px;">
+                    <span style="text-align: center;"><h1>2D Visualization</h1></span>
+                    <hr>
+                    </div>
+                    
+                    <div id="canvas-container3" style="width: 430px; height: 320px; margin-top: 25px; position: relative;">
+                        <canvas id="decTreeFig3"></canvas> 
+                        </div>
+                        
+                        <div id="allSliderWrapper" style="display: flex;
+                        justify-content: center;
+                        align-items: center;">
+
+                        <span id="spanWrap0">
+                            <input type="checkbox" id="check0" name="check0" onchange="my2DPlot.moveLine(0)">
+                            <label for="check0"> Flip split point</label> 
+                            <input name="slider0" type="range" min="1" max="100" value="50" id="slider0" oninput="my2DPlot.moveLine(0)" style="width: 200px; margin-left: 30px; ">
+                        </span>
+                        <span id="spanWrap12" style="display: none;">
+                            <input type="checkbox" id="check1" name="check1" onchange="my2DPlot.moveLine(1)">
+                            <label for="check1"> Flip split point</label> 
+                            <input type="range" min="1" max="100" value="50" id="slider1" oninput="my2DPlot.moveLine(1)" style="width: 200px;  margin-left: 30px;">
+                            <br>
+                            <input type="checkbox" id="check2" name="check2" onchange="my2DPlot.moveLine(2)">
+                            <label for="check2"> Flip split point</label> 
+                            <input type="range" min="1" max="100" value="50" id="slider2" oninput="my2DPlot.moveLine(2)" style="width: 200px;  margin-left: 30px;">
+                        </span>
+                        
+                        <span id="spanWrap3456" style="display: none;">
+                            <input type="checkbox" id="check3" name="check3" onchange="my2DPlot.moveLine(3)">
+                            <label for="check3"> Flip split point</label> 
+                            <input type="range" min="1" max="100" value="50" id="slider3" oninput="my2DPlot.moveLine(3)" style="width: 200px; margin-left: 30px;">
+                            <br>
+                            <input type="checkbox" id="check4" name="check4" onchange="my2DPlot.moveLine(4)">
+                            <label for="check4"> Flip split point</label> 
+                            <input type="range" min="1" max="100" value="50" id="slider4" oninput="my2DPlot.moveLine(4)" style="width: 200px;  margin-left: 30px;">
+                            <br>
+                            <input type="checkbox" id="check5" name="check5" onchange="my2DPlot.moveLine(5)">
+                            <label for="check5"> Flip split point</label> 
+                            <input type="range" min="1" max="100" value="50" id="slider5" oninput="my2DPlot.moveLine(5)" style="width: 200px; margin-left: 30px;">
+                            <br>
+                            <input type="checkbox" id="check6" name="check6" onchange="my2DPlot.moveLine(6)">
+                            <label for="check6"> Flip split point</label> 
+                            <input type="range" min="1" max="100" value="50" id="slider6" oninput="my2DPlot.moveLine(6)" style="width: 200px; margin-left: 30px;">
+                        </span>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+            <!--
+            <div class="content-text">
+            We can see a few important things here:
+            <ul>
+                <li>
+                    The position of the lines controls the split points of the tree.
+                </li>
+                <li>
+                    A different view on the hierarchical structure of the tree. Here we see that the first split 
+                    divides the region into two pieces and all subsequent splits further subdivides
+                    each region into two additional pieces. Each question thus refines the area that the model considers.
+                </li>
+                <li>
+                    The decision at the leaves of the tree depends on which class that is in majority in the 
+                    associated region. If there is a tie between some classes or if there are no points in the region then the decision 
+                    is chosen randomly.
+                </li>
+                <li>
+                    Each line is parallel to the x and y axes. Thus we can realise that decision trees can struggle 
+                    when the data is well separated by a diagonal line, something that can occur when our dataset contains strong linear <div class="popup">
+                        <span style="cursor: help;" onclick="togglePopup(4)">correlations.</span>
+                        <span class="popuptext" id="myPopup4">
+                            Linear correlations is a measure of how linearly related two features are, meaning
+                            how much the relation between the two features can be approximated with a straight line.
+                            For example, age and height has a strong linear correlation since the taller one 
+                            is the more one usually weighs, and this relation can be approximately linear.
+
+                        </span>
+                    </div>
+                </li>
+                
+            </ul>
+
+            <h1>Split criterias</h1>
+            When choosing positions for the lines above then then you might have tried to strive for as a high 
+            accuracy as possible. While this seems natural it can be more beneficial to choose 
+            line positions based on other criterias. One such other criteria is entropy which can be seen as a measure of purity.
+             It is used with decision trees to obtain 
+            regions that are pure in that they mostly contain data points of the same class.
+            In the same way that most people prefer to put their socks into one drawer
+            and shirts into another and not 
+            mix them both up in the same drawer, entropy will make it so that the splits of the tree 
+            end up with data points of one class in one region and points of another class in another region 
+            and not mix them up together in the same region. The mathematical formula for entropy is given 
+            as follows:
+
+            <div style="width: 400px;
+            height: 100px;
+            margin: auto;
+          
+            font-size: 25px;
+            display: flex;
+            /* flex-direction: column;*/
+            align-items: center;">
+                    <div class="math-formula">
+                        
+                    Entropy 
+                    = 
+                    <div class="popup" style="padding-bottom: 5px; padding-left: 4px;">
+                        <span style="cursor: help;" onclick="togglePopup(6)">\(-\)</span>
+                        <span class="popuptext" id="myPopup6">This is just a normal minus sign that you probably learned 
+                            about in elementary or primary school. If you wonder why it is needed in the formula then 
+                            the answer is that it makes the entropy non-negative. Why does the entropy need to be 
+                            non-negative you ask? Well, there is no reason really. The person who created it probably thought that it 
+                            looked nicer this way.
+                        </span>
+                    </div>
+                    <div class="popup" style="padding-bottom: 5px; margin-left: 5px;">
+                        <span style="cursor: help;" onclick="togglePopup(7)">\(\sum_{i=1}^C\)</span>
+                        <span class="popuptext" id="myPopup7">The term \(\sum_{i=1}^C\) means that we should sum whatever comes after from \(i=1\)
+                            upto \(i=C\) (where \(C\) is the number of classes, in the interactive examples we have had \(C=3\)).
+                            Thus when we write \(\sum_{i=1}^Cp_i \log (p_i)\) we mean \(p_1\log (p_1) + p_2\log (p_2) + ... + p_C\log (p_C)\).
+                            <br><br>
+                            Other summation examples:<br>
+                            \(\sum_{i=1}^3 i = 1 + 2 + 3\)<br>
+                            \(\sum_{i=1}^5 i^2 = 1^2 + 2^2 + 3^2 + 4^2 + 5^2\)<br>
+                            \(\sum_{i=1}^4 a_i = a_1 + a_2 + a_3 + a_4\)<br>
+                        </span>
+                    </div>
+                    <div class="popup" style="padding-bottom: 5px; margin-left: 5px;">
+                        <span style="cursor: help;" onclick="togglePopup(8)">\(p_i\)</span>
+                        <span class="popuptext" id="myPopup8">The term \(p_i\) refers to the probability of class \(i\). 
+                            For a region in a decision trees we set the probability of class \(i\) to be the empirical 
+                            frequency of class \(i\) in that region. For example, if we in a region have \(n_1\) data points of class 1, 
+                            \(n_2\) of class 2 and \(n_3\) of class 3 then we can calculate the probabilities 
+                            \(p_i\) associated with that region as <br>
+                            \(p_1 = n_1/(n_1+n_2+n_3)\)<br>
+                            \(p_2 = n_2/(n_1+n_2+n_3)\)<br>
+                            \(p_3 = n_3/(n_1+n_2+n_3)\)<br>
+                        </span>
+                    </div>
+                    <div class="popup" style="padding-bottom: 5px; margin-left: 5px;">
+                        <span style="cursor: help;" onclick="togglePopup(9)">\(\log(p_i)\)</span>
+                        <span class="popuptext" id="myPopup9">This is just the normal logarithm that you might have encountered in junior high school 
+                            or high school. While there are a few reasons for why it appears in the formula for entropy, 
+                            most of these reasons is related to giving entropy some nice mathematical properties that 
+                            makes sense in other contexts such as Information Theory.
+                        </span>
+                    </div>
+                     
+                    </div>
+                </div>
+              
+
+            <br>
+            <br>
+            Below you can see the entropy and accuracy
+             for a single split point. The information can be seen to the left while the corresponding split point 
+             to the right. By clicking on Exhibit 1 and Exhibit 2 you can see a two cases where the accuracy is 
+             constant but the entropy changes. You can additionally add points by clicking on the plot.
+            </div>
+
+
+
+
+            <div class="flex-container">
+                
+                    <div class="text-box" style="height: 580px;">
+                      <div style="padding-left: 20px; padding-right: 20px;">
+                        <div style="margin-left: 60px; margin-right: 60px;">
+                            <span style="text-align: center;"><h1>Information</h1></span>
+                            <hr>
+                            </div>
+                            
+                          Upper region:
+                          <ul>
+                              <li>[<div class="popup">
+                                  <span style="cursor: help;" onclick="togglePopup(1)">#</span>
+                                  <span class="popuptext" id="myPopup1">The symbol "#" here just denotes the amount of items. 
+                                      For example, #<span style="color: #FDA64B;">&#9679;</span> denotes the number of orange circles 
+                                      in the given region.
+                                      
+                                  </span>
+                              </div>  <span style="color: #FDA64B;">&#9679;</span>,# <span style="color: #D1D387;">&#9632;</span>, #<span style="color: #15607A;">&#9650;</span>] = <span id="upperNumPts"></span></li>
+                              
+                              <li>Accuracy: <span id="upperMisc"></span>%</li>
+                              <li>Entropy: <span id="upperEnt"></span></li>
+                          </ul>
+                          Lower region:
+                          <ul>
+                            <li>[#<span style="color: #FDA64B;">&#9679;</span>,# <span style="color: #D1D387;">&#9632;</span>, #<span style="color: #15607A;">&#9650;</span>] = <span id="lowerNumPts"></span></li>
+                              <li>Accuracy: <span id="lowerMisc"></span>%</li>
+                              <li>Entropy: <span id="lowerEnt"></span></li>
+                          </ul>
+                          <div class="popup">
+                              <span style="cursor: help;" onclick="togglePopup(3)">Weighted accuracy:</span>
+                              <span class="popuptext" id="myPopup3">
+                                  Weighted accuracy is a way of combining the accuracies of both regions into a single number.
+                                  Given that the accuracy in the upper region (lower region) is denoted as \(a_u\) (\(a_l\)) and that 
+                                  the amount of points in the region is \(n_u\) (\(n_l\)), we can calculate the weighted accuracy as:<br> 
+                                  Weighted accuracy = \(n_ua_u/(n_u + n_l) + n_la_l/(n_u + n_l)\)
+                              </span>
+                          </div> <span id="totalMisc"></span>%
+                          <br>
+                          <div class="popup">
+                              <span style="cursor: help;" onclick="togglePopup(5)">Weighted entropy:</span>
+                              <span class="popuptext" id="myPopup5">Weighted entropy is a way of combining the entropies of both regions into a single number.
+                                Given that the entropy in the upper region (lower region) is denoted as \(e_u\) (\(e_l\)) and that 
+                                the amount of points in the region is \(n_u\) (\(n_l\)), we can calculate the weighted entropy as:<br> 
+                                Weighted entropy = \(n_ue_u/(n_u + n_l) + n_le_l/(n_u + n_l)\)
+                              </span>
+                          </div> <span id="totalEnt"></span>
+                      </div>
+                      </div>
+                    
+                
+    
+    
+    
+                    <div class="canvas-box" style="height: 580px;">
+                        <div style="margin-left: 60px; margin-right: 60px;">
+                            <span style="text-align: center;"><h1>Single split point</h1></span>
+                            <hr>
+                            </div>
+                        <div id="canvas-container4" style="width: 430px; height: 320px; margin-top: 25px; position: relative;">
+                            <canvas id="decTreeFig4"></canvas> 
+                            </div>
+    
+                        
+                           <div style="text-align: center; margin: auto; margin-bottom: 5px;"> Active class: </div>
+    
+    
+                            <div style="display: flex;
+                            justify-content: center;
+                            align-items: center;">
+                            <button id="dec4Circle" style="margin: 5px; width: 30px; height: 30px; border-radius: 4px; background-color: #afafaf;" onclick="myEntropyVsMis.updateClass(1)"><span style="color: #FDA64B;">&#9679;</span></button>
+                            <button id="dec4Square" style="margin: 5px; width: 30px; height: 30px; border-radius: 4px; background-color: #F7F7F7;" onclick="myEntropyVsMis.updateClass(2)"><span style="color: #D1D387;">&#9632;</span></button> 
+                            <button id="dec4Triangle" style="margin: 5px; width: 30px; height: 30px; border-radius: 4px; background-color: #F7F7F7;" onclick="myEntropyVsMis.updateClass(3)"><span style="color: #15607A;">&#9650;</span></button>
+                                
+                        </div>
+                        <div style="display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            margin-top: 10px;">
+                        <button onclick="myEntropyVsMis.displayExhibit(1)">Exhibit 1</button><button onclick="myEntropyVsMis.displayExhibit(2)">Exhibit 2</button><button onclick="myEntropyVsMis.resetData()">Reset data</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="content-text">
+                Here we can see some distinctive differences between entropy and accuracy. While the total accuracy 
+                is constant for the two data sets obtained by pressing "Exhibit 1" and "Exhibit 2", we can see that
+                entropy changes. One can argue that a split such as in "Exhibit 2" is more ideal since that gives 
+                rise to an upper region that is more pure. A more pure region can be beneficial since no further depth 
+                to the tree is needed in order to model the data points in that region.
+                
+                <h1>Training a decision tree</h1>
+                While up above we could choose good split points for the decision tree manually, this is 
+                not possible for most data sets. Thus there is a need for an automatic training algorithm. 
+                Here we will focus on a <div class="popup" style="padding-bottom: 5px; margin-left: 5px;">
+                    <span style="cursor: help;" onclick="togglePopup(10)">greedy algorithm</span>
+                    <span class="popuptext" id="myPopup10">Intuitively, a greedy algorithm makes a locally optimal choice at each 
+                        stage and does not take what can happen in the future into account. 
+                    </span>
+                </div>
+                 that is used in most implementations of a decision tree. The training procedure can roughly be 
+                 described as
+                 follows:
+                <ol>
+                     <li>
+                         Choose a splitting criteria, either entropy or accuracy.
+                     </li>
+                     <li>For each axis, sort all of the feature values associated with that axis in an ascending order.
+                         Create the set of split points as the mean between all subsequent points in the sorted list.
+                     </li>
+                     <li>
+                         Loop through the list of all split points and put a split at each point.
+                         For each split point, calculate either the weighted entropy or the weighted accuracy.
+                         The optimal split will be the one that gives either the lowest weighted entropy 
+                         or the highest weighted accuracy score depending on which splitting criteria was chosen 
+                         in step 1.
+                     </li>
+                     <li>
+                         Add the optimal split to the tree and repeat from step 2 until all regions are pure,
+                         meaning that all regions only contain data points of the same class.
+                     </li>
+                 </ol>
+                 The training procedure for a 2D-dataset can be visualized below. You can start the training procedure and 
+                 see how the tree is constructed
+                 by clicking on the "Proceed with training" button. Keep clicking the button until all regions are pure.
+                 </div>
+
+                 <div class="flex-container">
+                    <div class="canvas-box" style="height: 550px;">
+                        <div style="margin-left: 60px; margin-right: 60px;">
+                            <span style="text-align: center;"><h1>Decision Tree</h1></span>
+                            <hr>
+                            </div>
+                        
+                        <div id="canvas-container5" style="width: 430px; height: 320px; margin-top: 25px; position: relative;">
+                            <canvas id="decTreeFig5"></canvas> 
+                            
+                            <span id="trainingSplit1"
+                            style="position: absolute; 
+                            top: 2px;
+                            right: 152px;"><span id="train1Feat">x</span> > <span id="train1Val">0.50</span>
+                            </span>
+
+                            <span id="trainingSplit2"
+                            style="position: absolute; 
+                            top: 69px;
+                            right: 71px;"><span id="train2Feat">x</span> > <span id="train2Val">0.50</span>
+                            </span>
+
+                            <span id="trainingSplit3"
+                            style="position: absolute; 
+                            top: 124px;
+                            right: -6px;"><span id="train3Feat">x</span> > <span id="train3Val">0.50</span>
+                            </span>
+
+                            <span id="trainingSplit4"
+                            style="position: absolute; 
+                            top: 124px;
+                            right: 152px;"><span id="train4Feat">x</span> > <span id="train4Val">0.50</span>
+                            </span>
+
+                            <span id="trainingSplit5"
+                            style="position: absolute; 
+                            top: 179px;
+                            right: 40px;"><span id="train5Feat">x</span> > <span id="train5Val">0.50</span>
+                            </span>
+
+                            <span id="trainingSplit6"
+                            style="position: absolute; 
+                            top: 230px;
+                            right: 86px;"><span id="train6Feat">x</span> > <span id="train6Val">0.50</span>
+                            </span>
+
+
+                            <span
+                            style="position: absolute; 
+                            top: 110px;
+                            right: 130px;"><span id="trainDec0">O</span>
+                            </span>
+
+                            <span
+                            style="position: absolute; 
+                            top: 110px;
+                            right: 287px;"><span id="trainDec1">O</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 169px;
+                            right: 51px;"><span id="trainDec00">O</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 169px;
+                            right: 209px;"><span id="trainDec01">A</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 205px;
+                            right: 99px;"><span id="trainDec001">C</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 205px;
+                            right: 6px;"><span id="trainDec000">C</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 253px;
+                            right: 144px;"><span id="trainDec0011">D</span>
+                            </span>
+                            
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 253px;
+                            right: 51px;"><span id="trainDec0010">D</span>
+                            </span>
+
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 203px;
+                            right: 162px;"><span id="trainDec010">M</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 203px;
+                            right: 257px;"><span id="trainDec011">M</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 303px;
+                            right: 190px;"><span id="trainDec00111">G</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 303px;
+                            right: 98px;"><span id="trainDec00110">G</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 34px;
+                            right: 250px;"><span id="trainDecYes1">Yes</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 34px;
+                            right: 160px;"><span id="trainDecNo1">No</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 92px;
+                            right: 160px;"><span id="trainDecYes2">Yes</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 92px;
+                            right: 90px;"><span id="trainDecNo2">No</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 152px;
+                            right: 231px;"><span id="trainDecYes4">Yes</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 152px;
+                            right: 175px;"><span id="trainDecNo4">No</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 152px;
+                            right: 72px;"><span id="trainDecYes3">Yes</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 152px;
+                            right: 20px;"><span id="trainDecNo3">No</span>
+                            </span>
+
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 202px;
+                            right: 120px;"><span id="trainDecYes5">Yes</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 202px;
+                            right: 64px;"><span id="trainDecNo5">No</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 252px;
+                            right: 165px;"><span id="trainDecYes6">Yes</span>
+                            </span>
+
+                            <span class="trainingSplitClass1"
+                            style="position: absolute; 
+                            top: 252px;
+                            right: 110px;"><span id="trainDecNo6">No</span>
+                            </span>
+
+
+                        </div>
+                        <div style="display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-top: 10px;">
+                            <button id="trainingButton" onclick="myTrainPlot.scanBox()">Proceed with training</button><button onclick="myTrainPlot.rerunAnimation()">Restart training step</button><button onclick="myTrainPlot.restartAnimation()">Restart training</button><br>
+                        </div>
+                        <div style="display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-top: 10px;">
+                            Animation speed: <input type="range" min="1" max="100" value="95" id="sliderTrainSpeed" oninput="myTrainPlot.setAnimSpeed()" style="width: 250px; float: right; margin-left: 30px;">
+                        </div>
+                    </div>
+
+                    <div class="canvas-box" style="height: 550px;">
+                        <div style="margin-left: 60px; margin-right: 60px;">
+                        <span style="text-align: center;"><h1>Training plot</h1></span>
+                        <hr>
+                        </div>
+                        
+                        <div id="canvas-container6" style="width: 430px; height: 320px; margin-top: 25px; position: relative;">
+                            <canvas id="decTreeFig6"></canvas> 
+                            </div>
+                            <div style="text-align: center;">
+                                Current entropy value: <span id="currentTrainEntropy"></span><br>
+                                <span style="color: red;">Lowest entropy value: <span id="bestTrainEntropy"></span></span><br>
+                                <span id="trainingFinalText">There are still impure regions.</span>
+                            </div>
+                    </div>
+                </div>
+                <div class="content-text">
+                    
+                    While ensuring that all regions are pure at the end of the training can in some sense seem sensible, it is also 
+                    likely to yield trees that <div class="popup">
+                        <span style="cursor: help;" onclick="togglePopup(11)">overfit</span>
+                        <span class="popuptext" id="myPopup11">Overfit means that the method had adapted to noise that is present
+                            in the data. Intuitively one can say that the method has only learnt to memorize the data in the training set 
+                            and has not learnt to give an accurate prediction on something it has not seen before.
+                            
+                            
+                        </span>
+                    </div>. Thus there exists 
+                    a few hyperparameters that can help control the training procedure. While there exist many hyperparameters that can control different properties of decision trees,
+                     some examples of hyperparameters that explicitly enforce properties on the tree and how it relates to the data are:
+                    <ul>
+                        <li>Maximum depth of the tree: Controls how many questions that can be asked to reach the decision.</li>
+                        <li>Min samples per split: Controls how many points are needed in a region for another split to be created</li>
+                        <li>Min samples per leaf: Controls the amount of points needed in a newly created region for the split to be considered.</li>
+                    </ul> 
+                    
+                    <h1>Final notes</h1>
+                    As with any introductory notes, there will be information that is skipped and these final notes 
+                    will briefly mention some of these points. 
+                    <ul>
+                        <li>While the entire post above deals with decision trees in a classification setting, one 
+                            can also use decision trees for regression. In such a setting, instead of predicting the majority class in each 
+                            region, the mean of the target values are usually predicted. 
+                        </li>
+                        <li>While decision trees can be argued to be easy to understand and use, there are some major downsides with them which makes it so that 
+                            other methods can be preferred instead. Some downsides are:
+                            <ul>
+                                <li>It is a weak method, meaning that it can be difficult to obtain a high accuracy on unseen data.</li>
+                                <li>They can be sensitive to noise. If the data is slightly perturbed then the tree and the associated questions can drastically change.</li>
+                                <li>While small decision trees are interpretable, longer trees can give quite unnatural explanations for why a decision was made, and 
+                                    because of the sensitivity of the method to noise these explanations might only have arisen because of specific properties associated with this 
+                                    dataset and does not indicate give some general questions that can work in other settings.
+                                </li>
+                            </ul>
+                        </li>
+                        <li> While decision trees on their own can be quite a weak method, the method can be combined with other techniques to yield methods that give substantial improvements to the prediction capabilities. </li>
+                    </ul>
+                    In conclusion, I think decision trees is an easy method to grasp and can serve as a good introduction to machine learning methods.
+                    While it might not be used in many classifiers on its own, it can serve as a solid building block for creating more advanced methods.
+
+
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                -->
+
+    <!--<script src="canvas.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
+    <script src="decTreeBasics.js"></script>
+    <script src="decTreeTraining1.js"></script>
+    <script src="decTreeTraining2.js"></script>
+    <script src="decTreeTraining3.js"></script>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!--<script src="canvasTraining.js"></script>-->
+
+</body>
+</html>
+
+<!--style="border: 3px dotted black;"-->
